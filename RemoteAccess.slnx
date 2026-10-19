@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="RemoteAccess.Api/RemoteAccess.Api.csproj" />
+  <Project Path="RemoteAccess.Application/RemoteAccess.Application.csproj" />
+  <Project Path="RemoteAccess.Data/RemoteAccess.Data.csproj" Id="a3dca937-af37-4217-ac79-5072aaf49b64" />
+  <Project Path="RemoteAccess.Domain/RemoteAccess.Domain.csproj" />
+  <Project Path="RemoteAccess.Infrastructure/RemoteAccess.Infrastructure.csproj" />
+</Solution>
