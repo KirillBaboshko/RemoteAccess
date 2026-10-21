@@ -9,7 +9,9 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         /// <summary>
         /// Требуется название продукта
         /// </summary>
-        public const string ProductNameRequired = "Требуется название продукта";
+        public const string DeviceOwnerIdRequired = "Требуется идентификатор пользователя устройства";
+        public const string DeviceNameRequired = "Требуется название устройства";
+        public const string DeviceInvalidPlatformType = "Недопустимый тип платформы устройства";
 
         /// <summary>
         /// Требуется идентификатор клиента
@@ -39,7 +41,7 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         /// <summary>
         /// Требуется ссылка для перехода на продукт
         /// </summary>
-        public const string ProductUrlRequired = "Требуется ссылка для перехода на продукт";
+        public const string DeviceUrlRequired = "Требуется ссылка для перехода на продукт";
 
         /// <summary>
         /// Требуется краткое описание продукта
@@ -89,7 +91,7 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         /// <summary>
         /// Требуется идентификатор продукта
         /// </summary>
-        public const string ProductIdRequired = "Требуется идентификатор продукта";
+        public const string DeviceIdRequired = "Требуется идентификатор продукта";
 
         /// <summary>
         /// Требуется тип взаимодействия
@@ -138,7 +140,7 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         /// <summary>
         /// Требуются идентификаторы продуктов
         /// </summary>
-        public const string ProductIdentifiersRequired = "Требуются идентификаторы продуктов";
+        public const string DeviceIdentifiersRequired = "Требуются идентификаторы продуктов";
 
         /// <summary>
         /// Ссылка не является адресом описания продукта
@@ -188,7 +190,7 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         /// <summary>
         /// Требуется название разрешения продукта
         /// </summary>
-        public const string ProductPermissionNameRequired = "Требуется название разрешения продукта";
+        public const string DevicePermissionNameRequired = "Требуется название разрешения продукта";
 
         /// <summary>
         /// Требуется код экосистемы
@@ -208,11 +210,11 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         /// <summary>
         /// Требуется код группы продуктов
         /// </summary>
-        public const string ProductGroupIdRequired = "Требуется код группы продуктов";
+        public const string DeviceGroupIdRequired = "Требуется код группы продуктов";
 
         /// <summary>
         /// Требуется наименование группы продуктов
         /// </summary>
-        public const string ProductGroupNameRequired = "Требуется наименование группы продуктов";
+        public const string DeviceGroupNameRequired = "Требуется наименование группы продуктов";
     }
 }

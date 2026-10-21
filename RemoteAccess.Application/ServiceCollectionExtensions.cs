@@ -27,7 +27,6 @@ public static class ServiceCollectionExtensions
 
         ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
 
-        // Регистрация AutoMapper (с версии 13.0 метод встроен в основной пакет)
         services.AddAutoMapper(cfg => { }, typeof(UsersMappingProfile).Assembly);
 
         return services;

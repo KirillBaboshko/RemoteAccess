@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
 
         // Регистрация репозиториев
         services.AddScoped<IUsersRepository, UsersRepository>();
+        services.AddScoped<IDevicesRepository, DevicesRepository>();
 
         return services;
     }

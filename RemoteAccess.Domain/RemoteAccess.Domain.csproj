@@ -11,10 +11,16 @@
   </ItemGroup>
 	<ItemGroup>
 		<Compile Update="Models\Users\UserEmail.cs">
-			<DependentUpon>Users\User.cs</DependentUpon>
+			<DependentUpon>User.cs</DependentUpon>
 		</Compile>
 		<Compile Update="Services\Token\TokenContext.cs">
 			<DependentUpon>Token.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Models\Devices\DeviceStatus.cs">
+			<DependentUpon>Device.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Models\Devices\PlatformType.cs">
+			<DependentUpon>Device.cs</DependentUpon>
 		</Compile>
 	</ItemGroup>
 

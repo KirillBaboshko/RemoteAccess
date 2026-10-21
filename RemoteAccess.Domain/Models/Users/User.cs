@@ -1,6 +1,7 @@
 namespace RemoteAccess.Domain.Models.Users;
 
 using Microsoft.AspNetCore.Identity;
+using RemoteAccess.Domain.Models.Devices;
 
 /// <summary>
 /// Пользователь
@@ -23,6 +24,8 @@ public class User: IdentityUser<Guid>
     /// Email подтвержден
     /// </summary>
     public bool IsEmailConfirmed { get; private set; }
+    public IReadOnlyCollection<Device> Devices => _devices;
+    private readonly List<Device> _devices;
 
     /// <summary>
     /// Конструктор для EF Core
@@ -32,6 +35,7 @@ public class User: IdentityUser<Guid>
         Email = string.Empty;
         PasswordHash = string.Empty;
         PasswordSalt = string.Empty;
+        _devices = new();
     }
 
     /// <summary>
@@ -43,6 +47,7 @@ public class User: IdentityUser<Guid>
         Email = email.ToLowerInvariant();
         PasswordSalt = GenerateSalt();
         PasswordHash = HashPassword(password, PasswordSalt);
+        _devices = new();
         CreatedAt = DateTime.UtcNow;
         IsEmailConfirmed = false;
     }
@@ -52,6 +57,7 @@ public class User: IdentityUser<Guid>
         Email = emailUser.Email.ToLowerInvariant();
         PasswordSalt = GenerateSalt();
         PasswordHash = HashPassword(password, PasswordSalt);
+        _devices = new();
         CreatedAt = DateTime.UtcNow;
         IsEmailConfirmed = emailUser.Confirmed;
     }
@@ -70,6 +76,22 @@ public class User: IdentityUser<Guid>
     public void ConfirmEmail()
     {
         IsEmailConfirmed = true;
+    }
+    public void AddDevice(Device device)
+    {
+        if (device.OwnerId != Id)
+        {
+            throw new InvalidOperationException("Device owner does not match user.");
+        }
+        _devices.Add(device);
+    }
+    public void RemoveDevice(Device device)
+    {
+        if (device.OwnerId != Id)
+        {
+            throw new InvalidOperationException("Device owner does not match user.");
+        }
+        _devices.Remove(device);
     }
 
     private static string GenerateSalt()

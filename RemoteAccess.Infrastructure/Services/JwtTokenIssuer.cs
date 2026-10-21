@@ -52,7 +52,9 @@ public sealed class JwtTokenIssuer : ITokenIssuer
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
 
         var jwtTokenHandler = new JwtSecurityTokenHandler();
-        var token = jwtTokenHandler.CreateJwtSecurityToken(_options.Issuer,
+        var token = jwtTokenHandler.CreateJwtSecurityToken(
+            issuer: _options.Issuer,
+            audience: _options.Audience,
             subject: identity,
             signingCredentials: signingCredentials,
             expires: DateTime.UtcNow.Add(_options.LifeTime));

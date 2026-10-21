@@ -35,5 +35,14 @@
 		<Compile Update="Features\Users\Models\AuthDataInfoValidator.cs">
 			<DependentUpon>AuthDataInfo.cs</DependentUpon>
 		</Compile>
+		<Compile Update="Features\Devices\Commands\CreateDeviceCommand.cs">
+			<DependentUpon>CreateDeviceHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Models\DeviceInfoValidator.cs">
+			<DependentUpon>DeviceInfo.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Commands\CreateDeviceCommandValidator.cs">
+			<DependentUpon>CreateDeviceCommand.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 </Project>
