@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "Core",
+    "Projects": [
+      {
+        "Path": "src\\Core\\RemoteAccess.Api\\RemoteAccess.Api.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]

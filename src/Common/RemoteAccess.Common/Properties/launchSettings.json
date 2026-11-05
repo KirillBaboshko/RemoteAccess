@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RemoteAccess.Common": {
+      "commandName": "Project"
+    },
+    "Профиль 1": {
+      "commandName": "Project"
+    }
+  }
+}

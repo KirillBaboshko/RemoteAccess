@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\RemoteAccess.Domain\RemoteAccess.Domain.csproj" />
+		<ProjectReference Include="..\RemoteAccess.Data\RemoteAccess.Data.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="14.0.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
+		<PackageReference Include="MediatR">
+			<Version>14.2.0</Version>
+		</PackageReference>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoWarn>CS1591</NoWarn>
+		<Configurations>Debug;Release;Core</Configurations>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Update="Features\Auth\Commands\RegisterUserCommand.cs">
+			<DependentUpon>RegisterUserHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Auth\Commands\LoginUserCommand.cs">
+			<DependentUpon>LoginUserHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Auth\Commands\LoginUserCommandValidator.cs">
+			<DependentUpon>LoginUserCommand.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Auth\Commands\RegisterUserCommandValidator.cs">
+			<DependentUpon>RegisterUserCommand.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Auth\Models\AuthDataInfoValidator.cs">
+			<DependentUpon>AuthDataInfo.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Commands\CreateDeviceCommand.cs">
+			<DependentUpon>CreateDeviceHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Models\DeviceInfoValidator.cs">
+			<DependentUpon>DeviceInfo.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Commands\CreateDeviceCommandValidator.cs">
+			<DependentUpon>CreateDeviceCommand.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Users\Queries\UserProfileQuery.cs">
+			<DependentUpon>GetUserProfileHandler.cs</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Features\Users\Commands\" />
+	  <Folder Include="Features\Users\Models\" />
+	</ItemGroup>
+</Project>
