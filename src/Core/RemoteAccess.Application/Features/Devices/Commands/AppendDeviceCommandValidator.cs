@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
 using RemoteAccess.Application.Features.Devices.Models;
-
 namespace RemoteAccess.Application.Features.Devices.Commands
 {
-    public class CreateDeviceCommandValidator:AbstractValidator<CreateDeviceCommand>
+    public class AppendDeviceCommandValidator : AbstractValidator<AppendDeviceCommand>
     {
-        public CreateDeviceCommandValidator()
+        public AppendDeviceCommandValidator()
         {
             RuleFor(x => x.DeviceInfo)
                 .NotNull()

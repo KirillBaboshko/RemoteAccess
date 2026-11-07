@@ -3,10 +3,10 @@ using RemoteAccess.Application.Features.Devices.Models;
 
 namespace RemoteAccess.Application.Features.Devices.Commands
 {
-    public class CreateDeviceCommand: IRequest<Guid>
+    public class AppendDeviceCommand : IRequest<Guid>
     {
         public DeviceInfo DeviceInfo { get; init; }
-        public CreateDeviceCommand(DeviceInfo deviceInfo)
+        public AppendDeviceCommand(DeviceInfo deviceInfo)
         {
             DeviceInfo = deviceInfo;
         }

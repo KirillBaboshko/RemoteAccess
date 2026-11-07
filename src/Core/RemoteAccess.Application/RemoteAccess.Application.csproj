@@ -36,14 +36,11 @@
 		<Compile Update="Features\Auth\Models\AuthDataInfoValidator.cs">
 			<DependentUpon>AuthDataInfo.cs</DependentUpon>
 		</Compile>
-		<Compile Update="Features\Devices\Commands\CreateDeviceCommand.cs">
-			<DependentUpon>CreateDeviceHandler.cs</DependentUpon>
-		</Compile>
 		<Compile Update="Features\Devices\Models\DeviceInfoValidator.cs">
 			<DependentUpon>DeviceInfo.cs</DependentUpon>
 		</Compile>
-		<Compile Update="Features\Devices\Commands\CreateDeviceCommandValidator.cs">
-			<DependentUpon>CreateDeviceCommand.cs</DependentUpon>
+		<Compile Update="Features\Devices\Commands\AppendDeviceCommandValidator.cs">
+			<DependentUpon>AppendDeviceCommand.cs</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Users\Queries\UserProfileQuery.cs">
 			<DependentUpon>GetUserProfileHandler.cs</DependentUpon>

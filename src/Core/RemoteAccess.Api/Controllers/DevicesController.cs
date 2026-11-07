@@ -21,11 +21,11 @@ namespace RemoteAccess.Api.Controllers
             _sender = sender;
         }
 
-        [HttpPost("create")]
+        [HttpPost("append")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-        public Task<Guid> CreateDevice([FromBody] DeviceInfo deviceInfo, CancellationToken cancellationToken)
+        public Task<Guid> AppendDevice([FromBody] DeviceInfo deviceInfo, CancellationToken cancellationToken)
         {
-            return _sender.Send(new CreateDeviceCommand(deviceInfo), cancellationToken);
+            return _sender.Send(new AppendDeviceCommand(deviceInfo), cancellationToken);
         }
     }
 }
