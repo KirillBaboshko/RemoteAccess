@@ -45,6 +45,15 @@
 		<Compile Update="Features\Users\Queries\UserProfileQuery.cs">
 			<DependentUpon>GetUserProfileHandler.cs</DependentUpon>
 		</Compile>
+		<Compile Update="Features\Devices\Commands\AppendDeviceCommand.cs">
+			<DependentUpon>AppendDeviceHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Commands\SetDeviceOnlineCommandValidator.cs">
+			<DependentUpon>SetDeviceOnlineCommand.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Commands\SetDeviceOnlineCommand.cs">
+			<DependentUpon>SetDeviceOnlineHandler.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Features\Users\Commands\" />

@@ -7,7 +7,7 @@ using RemoteAccess.Domain.Repositories;
 
 namespace RemoteAccess.Application.Features.Devices.Commands;
 
-public class AppendDeviceHandler : IRequestHandler<AppendDeviceCommand, Guid>
+public class AppendDeviceHandler : IRequestHandler<AppendDeviceCommand, DeviceRegistrationResult>
 {
     private readonly IDevicesRepository _devicesRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -18,15 +18,14 @@ public class AppendDeviceHandler : IRequestHandler<AppendDeviceCommand, Guid>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Guid> Handle(AppendDeviceCommand request, CancellationToken cancellationToken)
+    public async Task<DeviceRegistrationResult> Handle(AppendDeviceCommand request, CancellationToken cancellationToken)
     {
-        
         var ownerId = new UserId(request.DeviceInfo.OwnerId);
         var device = new Device(ownerId, request.DeviceInfo.Name, request.DeviceInfo.PlatformType);
         await _devicesRepository.CreateDevice(device, cancellationToken);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         
-        return device.Id.Value;
+        return new DeviceRegistrationResult(device.Id.Value, ownerId.Value);
     }
 }

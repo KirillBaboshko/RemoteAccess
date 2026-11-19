@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RemoteAccess.Data.DataProviders.Users.Model;
 using FluentValidation;
+using RemoteAccess.Application.Behaviors;
 
 namespace RemoteAccess.Application;
 
@@ -15,6 +16,7 @@ public static class ServiceCollectionExtensions
         {
             cfg.RegisterServicesFromAssembly(typeof(ServiceCollectionExtensions).Assembly);
             cfg.RegisterServicesFromAssembly(typeof(UsersMappingProfile).Assembly);
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
         
         services

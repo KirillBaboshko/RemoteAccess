@@ -16,9 +16,9 @@ namespace RemoteAccess.Application.Features.Users.Models
         public AuthDataInfoValidator()
         {
             RuleFor(x => x.Login).NotEmpty().WithMessage(ValidationErrorMessages.LoginRequired)
-                .MaximumLength(64).WithMessage(ValidationErrorMessages.ExceededMaxLength + "64 для логина");
+                .MaximumLength(64).WithMessage(ValidationErrorMessages.LoginMaxLength);
             RuleFor(x => x.Password).NotEmpty().WithMessage(ValidationErrorMessages.PasswordRequired)
-                .MaximumLength(64).WithMessage(ValidationErrorMessages.ExceededMaxLength + "64 для пароля");
+                .MaximumLength(64).WithMessage(ValidationErrorMessages.PasswordMaxLength);
         }
     }
 }

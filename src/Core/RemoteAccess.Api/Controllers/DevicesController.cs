@@ -21,11 +21,25 @@ namespace RemoteAccess.Api.Controllers
             _sender = sender;
         }
 
-        [HttpPost("append")]
-        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-        public Task<Guid> AppendDevice([FromBody] DeviceInfo deviceInfo, CancellationToken cancellationToken)
+        [HttpPost("register")]
+        [ProducesResponseType(typeof(DeviceRegistrationResult), StatusCodes.Status200OK)]
+        public Task<DeviceRegistrationResult> RegisterDevice([FromBody] DeviceInfo deviceInfo, CancellationToken cancellationToken)
         {
-            return _sender.Send(new AppendDeviceCommand(deviceInfo), cancellationToken);
+            return _sender.Send(new AppendDeviceCommand(deviceInfo, GetUserId()), cancellationToken);
         }
+
+        [HttpPost("online")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> SetOnline([FromBody] DeviceOnlineRequest request, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new SetDeviceOnlineCommand(request, GetUserId()), cancellationToken);
+            return NoContent();
+        }
+
+        private Guid GetUserId() =>
+            Guid.TryParse(User.FindFirst("userId")?.Value, out var id)
+                ? id
+                : throw new InvalidOperationException("User ID is missing from the token.");
     }
+
 }

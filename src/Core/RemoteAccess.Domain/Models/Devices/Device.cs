@@ -31,7 +31,7 @@ public class Device : Entity<DeviceId, Guid>
     /// <summary>
     /// Можно ли подключиться к устройству
     /// </summary>
-    public bool IsCanConnected => Status == DeviceStatus.Online;
+    public bool IsCanConnected => Status == DeviceStatus.Online && Status != DeviceStatus.Maintenance;
 
     /// <summary>
     /// Конструктор для EF Core
@@ -49,7 +49,7 @@ public class Device : Entity<DeviceId, Guid>
         OwnerId = ownerId ?? throw new ArgumentNullException(nameof(ownerId));
         Name = name ?? throw new ArgumentNullException(nameof(name));
         PlatformType = platformType;
-        Status = DeviceStatus.Online;
+        Status = DeviceStatus.Offline;
         CreatedAt = DateTime.UtcNow;
     }
 

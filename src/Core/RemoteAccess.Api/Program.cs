@@ -6,6 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using RemoteAccess.Api.Signaling;
 using RemoteAccess.Application;
 using RemoteAccess.Infrastructure;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,7 +91,7 @@ app.UseExceptionHandler(errorApp =>
     {
         var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = error is InvalidOperationException
+        context.Response.StatusCode = error is InvalidOperationException or ValidationException
             ? StatusCodes.Status400BadRequest
             : StatusCodes.Status500InternalServerError;
 
