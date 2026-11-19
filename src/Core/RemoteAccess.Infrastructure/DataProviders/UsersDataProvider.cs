@@ -25,7 +25,7 @@ public class UsersDataProvider : IUserDataProvider
     public async Task<UserModel> GetUserById(Guid id, CancellationToken cancellationToken)
     {
         var user = await _users
-            .Include(x => x.Devices)
+            .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
 
         if (user == null)

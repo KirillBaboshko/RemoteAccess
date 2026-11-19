@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RemoteAccess.Data.DataProviders.Devices.Model;
 
 namespace RemoteAccess.Data.DataProviders.Devices
 {
-    internal class IDeviceDataProvider
+    public interface IDeviceDataProvider
     {
+        Task<List<DeviceModel>> GetDevicesByOwnerId(Guid ownerId, CancellationToken cancellationToken);
     }
 }

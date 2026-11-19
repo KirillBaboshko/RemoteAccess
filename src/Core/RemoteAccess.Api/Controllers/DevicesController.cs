@@ -1,8 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RemoteAccess.Api.Extensions;
 using RemoteAccess.Application.Features.Devices.Commands;
 using RemoteAccess.Application.Features.Devices.Models;
+using RemoteAccess.Application.Features.Devices.Queries;
+using RemoteAccess.Data.DataProviders.Devices.Model;
 using RemoteAccess.Domain.Models.Devices;
 
 namespace RemoteAccess.Api.Controllers
@@ -22,24 +25,27 @@ namespace RemoteAccess.Api.Controllers
             _sender = sender;
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(List<DeviceModel>), StatusCodes.Status200OK)]
+        public Task<List<DeviceModel>> GetUserDevices(CancellationToken cancellationToken)
+        {
+            return _sender.Send(new UserDevicesQuery(User.GetUserId()), cancellationToken);
+        }
+
         [HttpPost("register")]
         [ProducesResponseType(typeof(DeviceRegistrationResult), StatusCodes.Status200OK)]
         public Task<DeviceRegistrationResult> RegisterDevice([FromBody] DeviceInfo deviceInfo, CancellationToken cancellationToken)
         {
-            return _sender.Send(new AppendDeviceCommand(deviceInfo, GetUserId()), cancellationToken);
+            return _sender.Send(new AppendDeviceCommand(deviceInfo, User.GetUserId()), cancellationToken);
         }
 
         [HttpPost("toggle-status")]
         [ProducesResponseType(typeof(DeviceStatus), StatusCodes.Status200OK)]
         public Task<DeviceStatus> ToggleStatus([FromBody] DeviceStatusRequest request, CancellationToken cancellationToken)
         {
-            return _sender.Send(new ToggleDeviceStatusCommand(request, GetUserId()), cancellationToken);
+            return _sender.Send(new ToggleDeviceStatusCommand(request, User.GetUserId()), cancellationToken);
         }
 
-        private Guid GetUserId() =>
-            Guid.TryParse(User.FindFirst("userId")?.Value, out var id)
-                ? id
-                : throw new InvalidOperationException("User ID is missing from the token.");
     }
 
 }

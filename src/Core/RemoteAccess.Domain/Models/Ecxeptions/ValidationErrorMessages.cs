@@ -18,6 +18,7 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         public const string DeviceNotOwnedByUser = "Устройство не принадлежит пользователю";
         public const string DeviceRemovedDuringStatusUpdate = "Устройство удалено во время обновления статуса";
         public const string UserIdRequired = "Требуется идентификатор пользователя";
+        public const string UserIdMissingFromToken = "В токене отсутствует корректный идентификатор пользователя";
         public const string UserIdNotNull = "Идентификатор пользователя не может быть пустым";
         /// <summary>
         /// Превышена максимальная длина

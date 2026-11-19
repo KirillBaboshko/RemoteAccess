@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RemoteAccess.Common.Data;
 using RemoteAccess.Data.DataProviders.Users;
+using RemoteAccess.Data.DataProviders.Devices;
 using RemoteAccess.Domain.Repositories;
 using RemoteAccess.Domain.Services.Token;
 using RemoteAccess.Infrastructure.Database;
@@ -37,7 +38,7 @@ public static class ServiceCollectionExtensions
 
         // Регистрация DataProviders (для чтения - CQRS Read Side)
         services.AddScoped<IUserDataProvider, UsersDataProvider>();
-        //services.AddScoped<IDeviceDataProvider, DevicesDataProvider>();
+        services.AddScoped<IDeviceDataProvider, DevicesDataProvider>();
 
         return services;
     }

@@ -54,6 +54,21 @@
 		<Compile Update="Features\Devices\Commands\ToggleDeviceStatusCommand.cs">
 			<DependentUpon>ToggleDeviceStatusHandler.cs</DependentUpon>
 		</Compile>
+		<Compile Update="Features\Devices\Queries\UserDevicesQueryValidator.cs">
+			<DependentUpon>UserDevicesQuery.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Queries\UserDevicesQuery.cs">
+			<DependentUpon>GetUserDevicesHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Queries\UserDevicesQueryValidator.cs">
+			<DependentUpon>UserDevicesQuery.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Queries\UserDevicesQuery.cs">
+			<DependentUpon>GetUserDevicesHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Devices\Models\DeviceStatusRequestValidator.cs">
+			<DependentUpon>DeviceStatusRequest.cs</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Features\Users\Commands\" />

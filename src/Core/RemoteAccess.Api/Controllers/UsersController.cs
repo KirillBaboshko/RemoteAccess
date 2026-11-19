@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RemoteAccess.Application.Features.Devices.Commands;
-using RemoteAccess.Application.Features.Devices.Models;
+using RemoteAccess.Api.Extensions;
 using RemoteAccess.Application.Features.Users.Queries;
 using RemoteAccess.Data.DataProviders.Users.Model;
 
@@ -25,9 +24,10 @@ namespace RemoteAccess.Api.Controllers
 
         [HttpPost("profile")]
         [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
-        public Task<UserModel> GetUserProfile([FromBody] Guid UserId, CancellationToken cancellationToken)
+        public Task<UserModel> GetUserProfile(CancellationToken cancellationToken)
         {
-            return _sender.Send(new UserProfileQuery(UserId), cancellationToken);
+            return _sender.Send(new UserProfileQuery(User.GetUserId()), cancellationToken);
         }
+
     }
 }

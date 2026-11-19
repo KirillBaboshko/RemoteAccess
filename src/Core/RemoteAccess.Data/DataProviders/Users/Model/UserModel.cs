@@ -1,5 +1,4 @@
-﻿using RemoteAccess.Data.DataProviders.Devices.Model;
-using RemoteAccess.Domain.Models.Users;
+﻿using RemoteAccess.Domain.Models.Users;
 
 namespace RemoteAccess.Data.DataProviders.Users.Model
 {
@@ -23,17 +22,5 @@ namespace RemoteAccess.Data.DataProviders.Users.Model
         /// </summary>
         public DateTime CreatedAt { get; init; }
 
-        /// <summary>
-        /// Список устройств пользователя
-        /// </summary>
-        public List<DeviceModel> Devices { get; private set; } = new();
-
-        /// <summary>
-        /// Установка устройств пользователя
-        /// </summary>
-        public void SetDevices(IEnumerable<DeviceModel> devices)
-        {
-            Devices = devices.ToList();
-        }
     }
 }

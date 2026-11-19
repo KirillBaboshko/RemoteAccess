@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using RemoteAccess.Data.DataProviders.Devices.Model;
 using RemoteAccess.Domain.Models.Users;
 
 namespace RemoteAccess.Data.DataProviders.Users.Model
@@ -18,8 +17,7 @@ namespace RemoteAccess.Data.DataProviders.Users.Model
             CreateMap<User, UserModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.UserEmail))
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt))
-                .ForMember(dest => dest.Devices, opt => opt.MapFrom(src => src.Devices));
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.CreatedAt));
         }
     }
 }
