@@ -7,13 +7,13 @@ using RemoteAccess.Domain.Repositories;
 
 namespace RemoteAccess.Application.Features.Devices.Commands;
 
-public sealed class SetDeviceOnlineCommandValidator : AbstractValidator<SetDeviceOnlineCommand>
+public sealed class ToggleDeviceStatusCommandValidator : AbstractValidator<ToggleDeviceStatusCommand>
 {
-    public SetDeviceOnlineCommandValidator(IDevicesRepository devicesRepository)
+    public ToggleDeviceStatusCommandValidator(IDevicesRepository devicesRepository)
     {
         RuleFor(x => x.Device)
             .NotNull()
-            .SetValidator(DeviceOnlineRequestValidator.Default);
+            .SetValidator(DeviceStatusRequestValidator.Default);
 
         RuleFor(x => x.Device.OwnerId)
             .Equal(x => x.AuthenticatedUserId)

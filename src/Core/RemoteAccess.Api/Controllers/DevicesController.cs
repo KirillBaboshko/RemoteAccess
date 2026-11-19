@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RemoteAccess.Application.Features.Devices.Commands;
 using RemoteAccess.Application.Features.Devices.Models;
+using RemoteAccess.Domain.Models.Devices;
 
 namespace RemoteAccess.Api.Controllers
 {
@@ -28,12 +29,11 @@ namespace RemoteAccess.Api.Controllers
             return _sender.Send(new AppendDeviceCommand(deviceInfo, GetUserId()), cancellationToken);
         }
 
-        [HttpPost("online")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> SetOnline([FromBody] DeviceOnlineRequest request, CancellationToken cancellationToken)
+        [HttpPost("toggle-status")]
+        [ProducesResponseType(typeof(DeviceStatus), StatusCodes.Status200OK)]
+        public Task<DeviceStatus> ToggleStatus([FromBody] DeviceStatusRequest request, CancellationToken cancellationToken)
         {
-            await _sender.Send(new SetDeviceOnlineCommand(request, GetUserId()), cancellationToken);
-            return NoContent();
+            return _sender.Send(new ToggleDeviceStatusCommand(request, GetUserId()), cancellationToken);
         }
 
         private Guid GetUserId() =>

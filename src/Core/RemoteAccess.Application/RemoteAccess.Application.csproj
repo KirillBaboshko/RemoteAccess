@@ -48,11 +48,11 @@
 		<Compile Update="Features\Devices\Commands\AppendDeviceCommand.cs">
 			<DependentUpon>AppendDeviceHandler.cs</DependentUpon>
 		</Compile>
-		<Compile Update="Features\Devices\Commands\SetDeviceOnlineCommandValidator.cs">
-			<DependentUpon>SetDeviceOnlineCommand.cs</DependentUpon>
+		<Compile Update="Features\Devices\Commands\ToggleDeviceStatusCommandValidator.cs">
+			<DependentUpon>ToggleDeviceStatusCommand.cs</DependentUpon>
 		</Compile>
-		<Compile Update="Features\Devices\Commands\SetDeviceOnlineCommand.cs">
-			<DependentUpon>SetDeviceOnlineHandler.cs</DependentUpon>
+		<Compile Update="Features\Devices\Commands\ToggleDeviceStatusCommand.cs">
+			<DependentUpon>ToggleDeviceStatusHandler.cs</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>

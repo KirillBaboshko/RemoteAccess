@@ -54,20 +54,21 @@ public class Device : Entity<DeviceId, Guid>
     }
 
     /// <summary>
-    /// Включить устройство (установить статус Online)
+    /// Переключить статус устройства между Online и Offline
     /// </summary>
-    public void DeviceOn()
+    public void ToggleStatus()
     {
-        Status = DeviceStatus.Online;
-        MarkAsUpdated();
-    }
-
-    /// <summary>
-    /// Выключить устройство (установить статус Offline)
-    /// </summary>
-    public void DeviceOff()
-    {
-        Status = DeviceStatus.Offline;
+        switch (Status)
+        {
+            case DeviceStatus.Online:
+                Status = DeviceStatus.Offline;
+                break;
+            case DeviceStatus.Offline:
+                Status = DeviceStatus.Online;
+                break;
+            default:
+                return;
+        }
         MarkAsUpdated();
     }
 

@@ -16,6 +16,7 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         public const string DeviceOwnerNotFound = "Владелец устройства не найден";
         public const string DeviceOwnerMismatch = "Владелец устройства не совпадает с авторизованным пользователем";
         public const string DeviceNotOwnedByUser = "Устройство не принадлежит пользователю";
+        public const string DeviceRemovedDuringStatusUpdate = "Устройство удалено во время обновления статуса";
         public const string UserIdRequired = "Требуется идентификатор пользователя";
         public const string UserIdNotNull = "Идентификатор пользователя не может быть пустым";
         /// <summary>
