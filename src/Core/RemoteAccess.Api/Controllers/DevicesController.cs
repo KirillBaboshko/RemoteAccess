@@ -32,6 +32,13 @@ namespace RemoteAccess.Api.Controllers
             return _sender.Send(new UserDevicesQuery(User.GetUserId()), cancellationToken);
         }
 
+        [HttpGet("search")]
+        [ProducesResponseType(typeof(List<DeviceModel>), StatusCodes.Status200OK)]
+        public Task<List<DeviceModel>> SearchDevices([FromQuery] string? search, CancellationToken cancellationToken)
+        {
+            return _sender.Send(new SearchDevicesQuery(search ?? string.Empty), cancellationToken);
+        }
+
         [HttpPost("register")]
         [ProducesResponseType(typeof(DeviceRegistrationResult), StatusCodes.Status200OK)]
         public Task<DeviceRegistrationResult> RegisterDevice([FromBody] DeviceInfo deviceInfo, CancellationToken cancellationToken)

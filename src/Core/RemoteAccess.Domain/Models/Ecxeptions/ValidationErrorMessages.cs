@@ -12,6 +12,7 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         public const string DeviceOwnerIdRequired = "Требуется идентификатор пользователя устройства";
         public const string DeviceIdRequired = "Требуется идентификатор устройства";
         public const string DeviceNameRequired = "Требуется название устройства";
+        public const string DeviceSearchRequired = "Укажите идентификатор или название устройства для поиска";
         public const string DeviceInvalidPlatformType = "Недопустимый тип платформы устройства";
         public const string DeviceOwnerNotFound = "Владелец устройства не найден";
         public const string DeviceOwnerMismatch = "Владелец устройства не совпадает с авторизованным пользователем";

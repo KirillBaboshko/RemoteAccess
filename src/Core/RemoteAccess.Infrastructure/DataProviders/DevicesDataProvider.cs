@@ -33,4 +33,18 @@ public class DevicesDataProvider : IDeviceDataProvider
 
         return _mapper.Map<List<DeviceModel>>(devices);
     }
+
+    public async Task<List<DeviceModel>> SearchDevices(string search, CancellationToken cancellationToken)
+    {
+        var isDeviceId = Guid.TryParse(search, out var id);
+        var deviceId = new DeviceId(id);
+        var name = search.ToLower();
+        var devices = await _devices
+            .AsNoTracking()
+            .Where(device => (isDeviceId && device.Id == deviceId) || device.Name.ToLower().Contains(name))
+            .OrderBy(device => device.CreatedAt)
+            .ToListAsync(cancellationToken);
+
+        return _mapper.Map<List<DeviceModel>>(devices);
+    }
 }
