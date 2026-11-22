@@ -47,4 +47,11 @@ public class DevicesDataProvider : IDeviceDataProvider
 
         return _mapper.Map<List<DeviceModel>>(devices);
     }
+
+    public async Task<DeviceAccessModel?> GetDeviceAccess(Guid deviceId, Guid userId, CancellationToken cancellationToken)
+    {
+        var id = new DeviceId(deviceId);
+        var device = await _devices.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
+        return device is null ? null : new DeviceAccessModel(device.OwnerId.Value == userId, device.Name);
+    }
 }

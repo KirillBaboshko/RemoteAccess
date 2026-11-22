@@ -11,6 +11,9 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         /// </summary>
         public const string DeviceOwnerIdRequired = "Требуется идентификатор пользователя устройства";
         public const string DeviceIdRequired = "Требуется идентификатор устройства";
+        public const string DeviceIdInvalid = "Некорректный идентификатор устройства";
+        public const string DeviceNotFound = "Устройство не найдено";
+        public const string GrpcRequestFailed = "Не удалось выполнить внутренний запрос устройств";
         public const string DeviceNameRequired = "Требуется название устройства";
         public const string DeviceSearchRequired = "Укажите идентификатор или название устройства для поиска";
         public const string DeviceInvalidPlatformType = "Недопустимый тип платформы устройства";

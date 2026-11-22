@@ -6,5 +6,6 @@ namespace RemoteAccess.Data.DataProviders.Devices
     {
         Task<List<DeviceModel>> GetDevicesByOwnerId(Guid ownerId, CancellationToken cancellationToken);
         Task<List<DeviceModel>> SearchDevices(string search, CancellationToken cancellationToken);
+        Task<DeviceAccessModel?> GetDeviceAccess(Guid deviceId, Guid userId, CancellationToken cancellationToken);
     }
 }

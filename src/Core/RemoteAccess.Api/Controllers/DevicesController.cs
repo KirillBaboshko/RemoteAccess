@@ -46,6 +46,15 @@ namespace RemoteAccess.Api.Controllers
             return _sender.Send(new AppendDeviceCommand(deviceInfo, User.GetUserId()), cancellationToken);
         }
 
+        [HttpGet("{deviceId:guid}/access")]
+        [ProducesResponseType(typeof(DeviceAccessModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<DeviceAccessModel>> GetAccess(Guid deviceId, CancellationToken cancellationToken)
+        {
+            var access = await _sender.Send(new DeviceAccessQuery(deviceId, User.GetUserId()), cancellationToken);
+            return access is null ? NotFound() : Ok(access);
+        }
+
         [HttpPost("toggle-status")]
         [ProducesResponseType(typeof(DeviceStatus), StatusCodes.Status200OK)]
         public Task<DeviceStatus> ToggleStatus([FromBody] DeviceStatusRequest request, CancellationToken cancellationToken)

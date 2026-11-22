@@ -6,15 +6,24 @@
     <Project Path="src\Core\RemoteAccess.Domain\RemoteAccess.Domain.csproj" />
     <Project Path="src\Core\RemoteAccess.Infrastructure\RemoteAccess.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/Signaling/">
+    <Project Path="src\Signaling\RemoteAccess.Signaling.Api\RemoteAccess.Signaling.Api.csproj" />
+    <Project Path="src\Signaling\RemoteAccess.Signaling.Application\RemoteAccess.Signaling.Application.csproj" />
+    <Project Path="src\Signaling\RemoteAccess.Signaling.Domain\RemoteAccess.Signaling.Domain.csproj" />
+    <Project Path="src\Signaling\RemoteAccess.Signaling.Infrastructure\RemoteAccess.Signaling.Infrastructure.csproj" />
+  </Folder>
   <Configurations>
     <BuildType Name="Core" />
     <BuildType Name="Debug" />
     <BuildType Name="Release" />
   </Configurations>
   <Folder Name="/Common/">
-    <Project Path="src\Common\RemoteAccess.Common\RemoteAccess.Common.csproj">
-      <Build Solution="Core|*" Project="false" />
-      <Build Solution="Debug|*" Project="false" />
-    </Project>
+    <Project Path="src\Common\RemoteAccess.Common\RemoteAccess.Common.csproj" />
+    <Project Path="src\Common\RemoteAccess.Common.Application\RemoteAccess.Common.Application.csproj" />
+    <Project Path="src\Common\RemoteAccess.Common.Redis.Abstractions\RemoteAccess.Common.Redis.Abstractions.csproj" />
+    <Project Path="src\Common\RemoteAccess.Common.Redis\RemoteAccess.Common.Redis.csproj" />
+  </Folder>
+  <Folder Name="/Contracts/">
+    <Project Path="src\Contracts\RemoteAccess.Contracts.Core\RemoteAccess.Contracts.Core.csproj" />
   </Folder>
 </Solution>

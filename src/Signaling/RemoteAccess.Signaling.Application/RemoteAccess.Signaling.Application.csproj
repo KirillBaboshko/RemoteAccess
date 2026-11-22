@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RemoteAccess.Signaling.Domain\RemoteAccess.Signaling.Domain.csproj" />
+    <ProjectReference Include="..\..\Common\RemoteAccess.Common.Application\RemoteAccess.Common.Application.csproj" />
+    <PackageReference Include="MediatR" Version="14.2.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.15" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Features\Hosts\Commands\ConnectClientCommand.cs">
+      <DependentUpon>ConnectClientHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Hosts\Commands\ConnectClientCommandValidator.cs">
+      <DependentUpon>ConnectClientCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Hosts\Commands\DisconnectClientCommand.cs">
+      <DependentUpon>DisconnectClientHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Hosts\Commands\RegisterHostCommand.cs">
+      <DependentUpon>RegisterHostHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Hosts\Commands\RegisterHostCommandValidator.cs">
+      <DependentUpon>RegisterHostCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Commands\RequestConnectionCommand.cs">
+      <DependentUpon>RequestConnectionHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Commands\RequestConnectionCommandValidator.cs">
+      <DependentUpon>RequestConnectionCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Commands\RespondToRequestCommand.cs">
+      <DependentUpon>RespondToRequestHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Commands\RespondToRequestCommandValidator.cs">
+      <DependentUpon>RespondToRequestCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Commands\EndSessionCommand.cs">
+      <DependentUpon>EndSessionHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Commands\EndSessionCommandValidator.cs">
+      <DependentUpon>EndSessionCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Commands\ExpireSessionsCommand.cs">
+      <DependentUpon>ExpireSessionsHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Models\ConnectionRequestValidator.cs">
+      <DependentUpon>ConnectionRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Models\SessionOptionsValidator.cs">
+      <DependentUpon>SessionOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Models\SignalingCallerValidator.cs">
+      <DependentUpon>SignalingCaller.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

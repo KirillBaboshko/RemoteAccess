@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RemoteAccess.Data.DataProviders.Users.Model;
 using FluentValidation;
-using RemoteAccess.Application.Behaviors;
+using RemoteAccess.Common.Application.Behaviors;
 
 namespace RemoteAccess.Application;
 

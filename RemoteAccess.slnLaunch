@@ -8,5 +8,20 @@
         "DebugTarget": "https"
       }
     ]
+  },
+  {
+    "Name": "Core + Signaling",
+    "Projects": [
+      {
+        "Path": "src\\Core\\RemoteAccess.Api\\RemoteAccess.Api.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "src\\Signaling\\RemoteAccess.Signaling.Api\\RemoteAccess.Signaling.Api.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      }
+    ]
   }
 ]

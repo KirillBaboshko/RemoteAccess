@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package remoteaccess.core.devices.v1;
+
+option csharp_namespace = "RemoteAccess.Contracts.Core.Devices";
+
+service DeviceAccess {
+  rpc GetAccess (GetDeviceAccessRequest) returns (GetDeviceAccessResponse);
+}
+
+message GetDeviceAccessRequest {
+  string device_id = 1;
+}
+
+message GetDeviceAccessResponse {
+  bool is_owner = 1;
+  string name = 2;
+}

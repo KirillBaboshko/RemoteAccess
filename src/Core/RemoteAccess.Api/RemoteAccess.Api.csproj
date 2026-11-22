@@ -12,9 +12,11 @@
   <ItemGroup>
     <ProjectReference Include="..\RemoteAccess.Application\RemoteAccess.Application.csproj" />
     <ProjectReference Include="..\RemoteAccess.Infrastructure\RemoteAccess.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Contracts\RemoteAccess.Contracts.Core\RemoteAccess.Contracts.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.80.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="2.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore">
@@ -22,4 +24,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Grpc\Devices\GetDeviceAccessRequestValidator.cs">
+      <DependentUpon>DeviceAccessGrpcService.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

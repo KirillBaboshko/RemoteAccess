@@ -1,0 +1,15 @@
+using RemoteAccess.Signaling.Domain.Models.Sessions;
+
+namespace RemoteAccess.Signaling.Domain.Repositories;
+
+public interface ISignalingState
+{
+    Task ConnectAsync(Guid userId, string connectionId, CancellationToken cancellationToken);
+    Task RegisterHostAsync(SessionParticipant participant, CancellationToken cancellationToken);
+    Task<RemoteSession> CreateSessionAsync(SessionParticipant source, Guid targetDeviceId, TimeSpan pendingTimeout, CancellationToken cancellationToken);
+    Task<RemoteSession> RespondAsync(Guid sessionId, string connectionId, bool accepted, CancellationToken cancellationToken);
+    Task<RemoteSession> EndAsync(Guid sessionId, string connectionId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<RemoteSession>> DisconnectAsync(string connectionId, CancellationToken cancellationToken);
+    Task<IReadOnlyList<RemoteSession>> ExpireSessionsAsync(CancellationToken cancellationToken);
+    Task RenewLeasesAsync(CancellationToken cancellationToken);
+}

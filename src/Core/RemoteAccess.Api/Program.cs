@@ -3,14 +3,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using RemoteAccess.Api.Signaling;
 using RemoteAccess.Application;
 using RemoteAccess.Infrastructure;
 using FluentValidation;
+using RemoteAccess.Api.Grpc.Devices;
+using RemoteAccess.Api.Grpc.Interceptors;
+using RemoteAccess.Contracts.Core.Devices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddGrpc(options => options.Interceptors.Add<GrpcExceptionInterceptor>());
+builder.Services.AddScoped<IValidator<GetDeviceAccessRequest>, GetDeviceAccessRequestValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -27,8 +31,6 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityRequirement(document =>
         new OpenApiSecurityRequirement { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
 });
-builder.Services.AddSignalR();
-builder.Services.AddSingleton<IPresenceTracker, PresenceTracker>();
 
 builder.Services.AddCors(options =>
 {
@@ -99,11 +101,13 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
-app.UseHttpsRedirection();
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), api => api.UseHttpsRedirection());
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.MapHub<SignalingHub>("/hubs/signaling");
+app.MapGrpcService<DeviceAccessGrpcService>().RequireAuthorization(policy =>
+    policy.RequireAssertion(context => Guid.TryParse(context.User.FindFirst("userId")?.Value, out var userId)
+        && userId != Guid.Empty));
 
 app.Run();
