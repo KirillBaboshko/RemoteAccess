@@ -3,7 +3,10 @@ for _, raw in ipairs(redis.call('ZRANGEBYSCORE', deadlines, '-inf', now, 'LIMIT'
     local session = cjson.decode(raw)
     local current = redis.call('GET', key('session', session.id))
     if not current or current == raw then
-        if current and session.state == 1 and canRenew(session) then
+        local deadline, reason = activeDeadline(session)
+        if deadline and deadline <= now then
+            table.insert(updates, cjson.encode(finish(session, raw, 3, reason)))
+        elseif current and isActive(session) and canRenew(session) then
             renewSession(session, raw)
         else
             local state, reason = 3, 2

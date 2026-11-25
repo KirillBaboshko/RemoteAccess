@@ -8,7 +8,7 @@ for _, id in ipairs(input.connections) do
         end
         for _, sessionId in ipairs(redis.call('SMEMBERS', key('connection-sessions', id))) do
             local session, raw = read('session', sessionId)
-            if session and session.state == 1 and canRenew(session) then renewSession(session, raw) end
+            if session and isActive(session) and canRenew(session) then renewSession(session, raw) end
         end
     end
 end

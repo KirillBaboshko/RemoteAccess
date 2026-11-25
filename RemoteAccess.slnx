@@ -9,6 +9,7 @@
   <Folder Name="/Signaling/">
     <Project Path="src\Signaling\RemoteAccess.Signaling.Api\RemoteAccess.Signaling.Api.csproj" />
     <Project Path="src\Signaling\RemoteAccess.Signaling.Application\RemoteAccess.Signaling.Application.csproj" />
+    <Project Path="src\Signaling\RemoteAccess.Signaling.Clients\RemoteAccess.Signaling.Clients.csproj" />
     <Project Path="src\Signaling\RemoteAccess.Signaling.Domain\RemoteAccess.Signaling.Domain.csproj" />
     <Project Path="src\Signaling\RemoteAccess.Signaling.Infrastructure\RemoteAccess.Signaling.Infrastructure.csproj" />
   </Folder>

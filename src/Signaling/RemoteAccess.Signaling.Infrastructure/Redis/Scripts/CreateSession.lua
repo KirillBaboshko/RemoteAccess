@@ -11,7 +11,10 @@ end
 local session = {
     id = input.id, source = source, target = target, createdAt = now,
     expiresAt = now + input.pendingTimeout, state = 0, version = 1,
-    acceptedAt = cjson.null, endedAt = cjson.null, endReason = cjson.null
+    acceptedAt = cjson.null, endedAt = cjson.null, endReason = cjson.null,
+    negotiationState = 0, negotiationExpiresAt = cjson.null,
+    sourceConnectionState = 0, targetConnectionState = 0,
+    connectionExpiresAt = cjson.null, recoveryExpiresAt = cjson.null, connectedAt = cjson.null
 }
 save(session, nil, session.expiresAt)
 return cjson.encode({session = session})

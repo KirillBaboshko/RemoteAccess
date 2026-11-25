@@ -1,8 +1,8 @@
 using Grpc.Core;
 using Microsoft.Extensions.Options;
 using RemoteAccess.Contracts.Core.Devices;
-using RemoteAccess.Signaling.Application.Features.Devices.Models;
-using RemoteAccess.Signaling.Application.Services;
+using RemoteAccess.Signaling.Clients.Devices;
+using RemoteAccess.Signaling.Clients.Devices.Models;
 using RemoteAccess.Signaling.Domain.Exceptions;
 using RemoteAccess.Signaling.Infrastructure.Settings;
 

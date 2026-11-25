@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\RemoteAccess.Signaling.Application\RemoteAccess.Signaling.Application.csproj" />
+    <ProjectReference Include="..\RemoteAccess.Signaling.Clients\RemoteAccess.Signaling.Clients.csproj" />
     <ProjectReference Include="..\..\Common\RemoteAccess.Common\RemoteAccess.Common.csproj" />
     <ProjectReference Include="..\..\Common\RemoteAccess.Common.Redis\RemoteAccess.Common.Redis.csproj" />
     <ProjectReference Include="..\..\Contracts\RemoteAccess.Contracts.Core\RemoteAccess.Contracts.Core.csproj" />

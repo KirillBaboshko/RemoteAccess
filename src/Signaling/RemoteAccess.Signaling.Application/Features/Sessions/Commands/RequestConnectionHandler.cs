@@ -1,7 +1,8 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Options;
-using RemoteAccess.Signaling.Application.Services;
+using RemoteAccess.Signaling.Clients.Signaling;
+using RemoteAccess.Signaling.Clients.Signaling.Models;
 using RemoteAccess.Signaling.Domain.Exceptions;
 using RemoteAccess.Signaling.Domain.Models.Sessions;
 using RemoteAccess.Signaling.Domain.Repositories;

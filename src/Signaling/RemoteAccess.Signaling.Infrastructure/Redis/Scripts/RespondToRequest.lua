@@ -3,7 +3,8 @@ if not session or session.target.connectionId ~= input.connectionId or session.s
     or session.expiresAt <= now or not canRenew(session) then return failure('RequestUnavailable') end
 if input.accepted then
     session.state, session.acceptedAt, session.version = 1, now, session.version + 1
-    save(session, raw, now + sessionLease)
+    session.negotiationState, session.negotiationExpiresAt = 1, now + negotiationTimeout
+    save(session, raw, leaseDeadline(session))
 else
     session = finish(session, raw, 2, 0)
 end

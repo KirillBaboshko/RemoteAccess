@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\RemoteAccess.Signaling.Application\RemoteAccess.Signaling.Application.csproj" />
+    <ProjectReference Include="..\RemoteAccess.Signaling.Clients\RemoteAccess.Signaling.Clients.csproj" />
     <ProjectReference Include="..\RemoteAccess.Signaling.Infrastructure\RemoteAccess.Signaling.Infrastructure.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
   </ItemGroup>

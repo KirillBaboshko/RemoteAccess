@@ -5,5 +5,10 @@ public enum SessionEndReason
     Rejected,
     ParticipantEnded,
     ConnectionLost,
-    Timeout
+    Timeout,
+    NegotiationTimeout,
+    ConnectionTimeout,
+    WebRtcFailed,
+    WebRtcClosed,
+    RecoveryTimeout
 }

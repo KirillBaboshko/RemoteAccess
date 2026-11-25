@@ -1,6 +1,6 @@
-using RemoteAccess.Signaling.Application.Features.Devices.Models;
+using RemoteAccess.Signaling.Clients.Devices.Models;
 
-namespace RemoteAccess.Signaling.Application.Services;
+namespace RemoteAccess.Signaling.Clients.Devices;
 
 public interface IDeviceAccessProvider
 {

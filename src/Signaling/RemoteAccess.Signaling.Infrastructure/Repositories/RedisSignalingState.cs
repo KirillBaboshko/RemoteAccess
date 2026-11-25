@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using RemoteAccess.Common.Redis.Abstractions;
 using RemoteAccess.Signaling.Domain.Exceptions;
 using RemoteAccess.Signaling.Domain.Models.Sessions;
+using RemoteAccess.Signaling.Domain.Models.WebRtc;
 using RemoteAccess.Signaling.Domain.Repositories;
 using RemoteAccess.Signaling.Infrastructure.Redis;
 using RemoteAccess.Signaling.Application.Features.Sessions.Models;
@@ -64,6 +65,22 @@ public sealed class RedisSignalingState : ISignalingState
         return result.Session!.ToDomain();
     }
 
+    public async Task<RemoteSession> PrepareWebRtcMessageAsync(Guid sessionId, Guid userId, string connectionId,
+        WebRtcMessageType messageType, CancellationToken cancellationToken)
+    {
+        var result = await ExecuteAsync(SignalingRedisScripts.PrepareWebRtcMessage,
+            new { id = sessionId, userId, connectionId, messageType = (int)messageType }, cancellationToken);
+        return result.Session!.ToDomain();
+    }
+
+    public async Task<RemoteSession> ReportConnectionStateAsync(Guid sessionId, Guid userId, string connectionId,
+        WebRtcConnectionState state, CancellationToken cancellationToken)
+    {
+        var result = await ExecuteAsync(SignalingRedisScripts.ReportConnectionState,
+            new { id = sessionId, userId, connectionId, state = (int)state }, cancellationToken);
+        return result.Session!.ToDomain();
+    }
+
     public async Task<IReadOnlyList<RemoteSession>> DisconnectAsync(string connectionId, CancellationToken cancellationToken)
     {
         _local.Remove(connectionId);
@@ -91,7 +108,10 @@ public sealed class RedisSignalingState : ISignalingState
                 _local.NodeId,
                 ((long)_options.ConnectionLease.TotalMilliseconds).ToString(CultureInfo.InvariantCulture),
                 ((long)_options.SessionLease.TotalMilliseconds).ToString(CultureInfo.InvariantCulture),
-                ((long)_options.CleanupGrace.TotalMilliseconds).ToString(CultureInfo.InvariantCulture)
+                ((long)_options.CleanupGrace.TotalMilliseconds).ToString(CultureInfo.InvariantCulture),
+                ((long)_options.NegotiationTimeout.TotalMilliseconds).ToString(CultureInfo.InvariantCulture),
+                ((long)_options.ConnectionTimeout.TotalMilliseconds).ToString(CultureInfo.InvariantCulture),
+                ((long)_options.RecoveryTimeout.TotalMilliseconds).ToString(CultureInfo.InvariantCulture)
             ], input, cancellationToken);
             result.EnsureSuccess();
             return result;

@@ -6,5 +6,7 @@ public enum SessionState
     Accepted,
     Rejected,
     Ended,
-    Expired
+    Expired,
+    Connected,
+    Reconnecting
 }

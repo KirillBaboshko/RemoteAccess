@@ -5,19 +5,22 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using RemoteAccess.Common.Redis;
 using RemoteAccess.Signaling.Api.Hubs;
-using RemoteAccess.Signaling.Api.Services;
 using RemoteAccess.Signaling.Application;
 using SessionOptions = RemoteAccess.Signaling.Application.Features.Sessions.Models.SessionOptions;
-using RemoteAccess.Signaling.Application.Services;
 using ValidationErrorMessages = RemoteAccess.Signaling.Domain.Exceptions.ValidationErrorMessages;
 using RemoteAccess.Signaling.Infrastructure;
 using RemoteAccess.Signaling.Infrastructure.Settings;
+using RemoteAccess.Signaling.Application.Features.WebRtc.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSignalR(options => options.AddFilter<SignalingExceptionFilter>())
+builder.Services.AddSignalR(options =>
+    {
+        options.AddFilter<SignalingExceptionFilter>();
+        options.MaximumReceiveMessageSize = WebRtcMessageLimits.HubMessageBytes;
+    })
     .AddJsonProtocol(options => options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-builder.Services.AddSingleton<ISignalingNotifier, SignalingNotifier>();
+builder.Services.AddSignalingNotifier<SignalingHub>();
 
 var secret = builder.Configuration["Jwt:Secret"];
 if (string.IsNullOrWhiteSpace(secret))

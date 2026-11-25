@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RemoteAccess.Common.Data;
 using RemoteAccess.Common.Redis;
 using RemoteAccess.Contracts.Core.Devices;
 using RemoteAccess.Signaling.Application.Features.Sessions.Models;
-using RemoteAccess.Signaling.Application.Services;
+using RemoteAccess.Signaling.Clients.Devices;
+using RemoteAccess.Signaling.Clients.Signaling;
 using RemoteAccess.Signaling.Domain.Repositories;
 using RemoteAccess.Signaling.Infrastructure.Clients;
 using RemoteAccess.Signaling.Infrastructure.Database;
@@ -19,6 +21,12 @@ namespace RemoteAccess.Signaling.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddSignalingNotifier<THub>(this IServiceCollection services)
+        where THub : Hub<ISignalingClient>
+    {
+        return services.AddSingleton<ISignalingNotifier, SignalingNotifier<THub>>();
+    }
+
     public static IServiceCollection AddAndConfigureInfrastructure(this IServiceCollection services, InfrastructureSettings settings)
     {
         settings.Validate();

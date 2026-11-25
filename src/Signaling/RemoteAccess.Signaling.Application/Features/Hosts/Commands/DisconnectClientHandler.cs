@@ -1,5 +1,5 @@
 using MediatR;
-using RemoteAccess.Signaling.Application.Services;
+using RemoteAccess.Signaling.Clients.Signaling;
 using RemoteAccess.Signaling.Domain.Repositories;
 
 namespace RemoteAccess.Signaling.Application.Features.Hosts.Commands;

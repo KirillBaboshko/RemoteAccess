@@ -1,4 +1,5 @@
 using RemoteAccess.Common.Domain;
+using RemoteAccess.Signaling.Domain.Models.WebRtc;
 
 namespace RemoteAccess.Signaling.Domain.Models.Sessions;
 
@@ -13,6 +14,13 @@ public sealed class SessionHistory : Entity<SessionId, Guid>
     public SessionState State { get; private set; }
     public SessionEndReason? EndReason { get; private set; }
     public long Version { get; private set; }
+    public NegotiationState NegotiationState { get; private set; }
+    public DateTime? NegotiationExpiresAt { get; private set; }
+    public WebRtcConnectionState SourceConnectionState { get; private set; }
+    public WebRtcConnectionState TargetConnectionState { get; private set; }
+    public DateTime? ConnectionExpiresAt { get; private set; }
+    public DateTime? RecoveryExpiresAt { get; private set; }
+    public DateTime? ConnectedAt { get; private set; }
 
     private SessionHistory() { }
 
@@ -32,6 +40,13 @@ public sealed class SessionHistory : Entity<SessionId, Guid>
         State = session.State;
         EndReason = session.EndReason;
         Version = session.Version;
-        UpdatedAt = session.EndedAt ?? session.AcceptedAt;
+        NegotiationState = session.NegotiationState;
+        NegotiationExpiresAt = session.NegotiationExpiresAt;
+        SourceConnectionState = session.SourceConnectionState;
+        TargetConnectionState = session.TargetConnectionState;
+        ConnectionExpiresAt = session.ConnectionExpiresAt;
+        RecoveryExpiresAt = session.RecoveryExpiresAt;
+        ConnectedAt = session.ConnectedAt;
+        UpdatedAt = session.UpdatedAt ?? session.EndedAt ?? session.ConnectedAt ?? session.AcceptedAt;
     }
 }

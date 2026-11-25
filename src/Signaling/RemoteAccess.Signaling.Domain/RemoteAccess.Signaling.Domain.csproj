@@ -14,6 +14,9 @@
     <Compile Update="Models\Sessions\SessionState.cs">
       <DependentUpon>RemoteSession.cs</DependentUpon>
     </Compile>
+    <Compile Update="Models\Sessions\NegotiationState.cs">
+      <DependentUpon>RemoteSession.cs</DependentUpon>
+    </Compile>
     <Compile Update="Models\Sessions\SessionEndReason.cs">
       <DependentUpon>RemoteSession.cs</DependentUpon>
     </Compile>

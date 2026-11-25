@@ -1,6 +1,6 @@
 using FluentValidation;
 using RemoteAccess.Signaling.Application.Models;
-using RemoteAccess.Signaling.Application.Services;
+using RemoteAccess.Signaling.Clients.Devices;
 using RemoteAccess.Signaling.Domain.Exceptions;
 using RemoteAccess.Signaling.Application.Features.Sessions.Models;
 

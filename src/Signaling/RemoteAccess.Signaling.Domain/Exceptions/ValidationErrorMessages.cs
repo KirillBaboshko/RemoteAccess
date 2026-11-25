@@ -30,4 +30,22 @@ public static class ValidationErrorMessages
     public const string CoreTimeoutInvalid = "Таймаут обращения к Core должен быть больше нуля";
     public const string RedisScriptMissing = "Не найден скрипт Redis: {0}";
     public const string RedisUnavailable = "Хранилище сессий временно недоступно";
+    public const string NegotiationTimeoutInvalid = "Время ожидания обмена SDP должно быть больше нуля";
+    public const string SessionDescriptionRequired = "Отсутствуют данные SDP";
+    public const string SdpRequired = "Требуется непустое описание SDP";
+    public const string SdpTooLong = "Размер SDP превышает допустимые 64 КиБ";
+    public const string IceMessageRequired = "Отсутствуют данные ICE-сообщения";
+    public const string IceCandidateInvalid = "Некорректные данные ICE-кандидата";
+    public const string IceCandidateTooLong = "Размер ICE-кандидата превышает допустимые 4 КиБ";
+    public const string IceFieldTooLong = "Длина поля ICE превышает допустимые 256 символов";
+    public const string IceMediaRequired = "Для ICE-кандидата требуется sdpMid или sdpMLineIndex";
+    public const string WebRtcSenderInvalid = "Соединение не имеет права отправлять это WebRTC-сообщение";
+    public const string WebRtcSequenceInvalid = "Нарушен порядок обмена offer, answer и ICE-кандидатами";
+    public const string NegotiationExpired = "Время ожидания обмена SDP истекло";
+    public const string ConnectionStateRequired = "Отсутствуют данные о состоянии WebRTC-соединения";
+    public const string ConnectionStateInvalid = "Некорректное состояние WebRTC-соединения";
+    public const string ConnectionStateTransitionInvalid = "Недопустимый переход состояния WebRTC-соединения";
+    public const string ConnectionTimeoutInvalid = "Время ожидания подключения WebRTC должно быть больше нуля";
+    public const string RecoveryTimeoutInvalid = "Время ожидания восстановления WebRTC должно быть больше нуля";
+    public const string ConnectionExpired = "Время ожидания подключения или восстановления WebRTC истекло";
 }

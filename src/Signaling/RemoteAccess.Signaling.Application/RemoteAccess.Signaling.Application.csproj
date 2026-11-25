@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\RemoteAccess.Signaling.Domain\RemoteAccess.Signaling.Domain.csproj" />
+    <ProjectReference Include="..\RemoteAccess.Signaling.Clients\RemoteAccess.Signaling.Clients.csproj" />
     <ProjectReference Include="..\..\Common\RemoteAccess.Common.Application\RemoteAccess.Common.Application.csproj" />
     <PackageReference Include="MediatR" Version="14.2.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
@@ -57,6 +58,35 @@
     </Compile>
     <Compile Update="Models\SignalingCallerValidator.cs">
       <DependentUpon>SignalingCaller.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Features\WebRtc\Commands\SendOfferCommand.cs">
+      <DependentUpon>SendOfferHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Commands\SendOfferCommandValidator.cs">
+      <DependentUpon>SendOfferCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Commands\SendAnswerCommand.cs">
+      <DependentUpon>SendAnswerHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Commands\SendAnswerCommandValidator.cs">
+      <DependentUpon>SendAnswerCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Commands\SendIceCandidateCommand.cs">
+      <DependentUpon>SendIceCandidateHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Commands\SendIceCandidateCommandValidator.cs">
+      <DependentUpon>SendIceCandidateCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Commands\ReportConnectionStateCommand.cs">
+      <DependentUpon>ReportConnectionStateHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Commands\ReportConnectionStateCommandValidator.cs">
+      <DependentUpon>ReportConnectionStateCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\WebRtc\Models\ConnectionStateMessageValidator.cs">
+      <DependentUpon>ConnectionStateMessage.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

@@ -6,6 +6,10 @@ using RemoteAccess.Signaling.Application.Features.Sessions.Commands;
 using RemoteAccess.Signaling.Application.Models;
 using RemoteAccess.Signaling.Domain.Exceptions;
 using RemoteAccess.Signaling.Application.Features.Sessions.Models;
+using RemoteAccess.Signaling.Application.Features.WebRtc.Commands;
+using RemoteAccess.Signaling.Application.Features.WebRtc.Models;
+using RemoteAccess.Signaling.Clients.Signaling;
+using RemoteAccess.Signaling.Clients.Signaling.Models;
 
 namespace RemoteAccess.Signaling.Api.Hubs;
 
@@ -45,6 +49,18 @@ public sealed class SignalingHub : Hub<ISignalingClient>
 
     public Task<SessionModel> EndSession(Guid sessionId) =>
         _sender.Send(new EndSessionCommand(GetCaller(), sessionId), Context.ConnectionAborted);
+
+    public async Task SendOffer(SessionDescriptionMessage offer) =>
+        await _sender.Send(new SendOfferCommand(GetCaller(), offer), Context.ConnectionAborted);
+
+    public async Task SendAnswer(SessionDescriptionMessage answer) =>
+        await _sender.Send(new SendAnswerCommand(GetCaller(), answer), Context.ConnectionAborted);
+
+    public async Task SendIceCandidate(IceCandidateMessage candidate) =>
+        await _sender.Send(new SendIceCandidateCommand(GetCaller(), candidate), Context.ConnectionAborted);
+
+    public Task<SessionModel> ReportConnectionState(ConnectionStateMessage message) =>
+        _sender.Send(new ReportConnectionStateCommand(GetCaller(), message), Context.ConnectionAborted);
 
     private SignalingCaller GetCaller()
     {

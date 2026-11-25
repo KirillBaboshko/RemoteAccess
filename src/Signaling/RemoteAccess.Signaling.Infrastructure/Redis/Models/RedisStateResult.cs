@@ -17,6 +17,12 @@ public sealed record RedisStateResult(string? Error, RedisSessionRecord? Session
             "DeviceBusy" => ValidationErrorMessages.DeviceBusy,
             "RequestUnavailable" => ValidationErrorMessages.RequestUnavailable,
             "SessionUnavailable" => ValidationErrorMessages.SessionUnavailable,
+            "WebRtcSenderInvalid" => ValidationErrorMessages.WebRtcSenderInvalid,
+            "WebRtcSequenceInvalid" => ValidationErrorMessages.WebRtcSequenceInvalid,
+            "NegotiationExpired" => ValidationErrorMessages.NegotiationExpired,
+            "ConnectionExpired" => ValidationErrorMessages.ConnectionExpired,
+            "ConnectionStateInvalid" => ValidationErrorMessages.ConnectionStateInvalid,
+            "ConnectionStateTransitionInvalid" => ValidationErrorMessages.ConnectionStateTransitionInvalid,
             _ => ValidationErrorMessages.UnexpectedError
         };
         throw new SignalingException(message);

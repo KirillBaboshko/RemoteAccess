@@ -1,8 +1,8 @@
 using AutoMapper;
 using MediatR;
-using RemoteAccess.Signaling.Application.Services;
+using RemoteAccess.Signaling.Clients.Signaling;
 using RemoteAccess.Signaling.Domain.Repositories;
-using RemoteAccess.Signaling.Application.Features.Sessions.Models;
+using RemoteAccess.Signaling.Clients.Signaling.Models;
 
 namespace RemoteAccess.Signaling.Application.Features.Sessions.Commands;
 
