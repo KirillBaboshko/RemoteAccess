@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using RemoteAccess.Signaling.Application.Features.Hosts.Commands;
 using RemoteAccess.Signaling.Application.Features.Sessions.Commands;
+using RemoteAccess.Signaling.Application.Features.Sessions.Queries;
 using RemoteAccess.Signaling.Application.Models;
 using RemoteAccess.Signaling.Domain.Exceptions;
 using RemoteAccess.Signaling.Application.Features.Sessions.Models;
@@ -49,6 +50,9 @@ public sealed class SignalingHub : Hub<ISignalingClient>
 
     public Task<SessionModel> EndSession(Guid sessionId) =>
         _sender.Send(new EndSessionCommand(GetCaller(), sessionId), Context.ConnectionAborted);
+
+    public Task<SessionModel> GetSession(Guid sessionId) =>
+        _sender.Send(new GetSessionQuery(GetCaller(), sessionId), Context.ConnectionAborted);
 
     public async Task SendOffer(SessionDescriptionMessage offer) =>
         await _sender.Send(new SendOfferCommand(GetCaller(), offer), Context.ConnectionAborted);

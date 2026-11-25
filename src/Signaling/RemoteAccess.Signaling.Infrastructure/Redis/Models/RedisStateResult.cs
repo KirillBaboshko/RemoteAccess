@@ -1,8 +1,10 @@
 using RemoteAccess.Signaling.Domain.Exceptions;
+using RemoteAccess.Signaling.Domain.Models.Devices;
 
 namespace RemoteAccess.Signaling.Infrastructure.Redis.Models;
 
-public sealed record RedisStateResult(string? Error, RedisSessionRecord? Session, RedisSessionRecord[]? Sessions)
+public sealed record RedisStateResult(string? Error, RedisSessionRecord? Session, RedisSessionRecord[]? Sessions,
+    DeviceAvailability[]? Availability = null)
 {
     public void EnsureSuccess()
     {

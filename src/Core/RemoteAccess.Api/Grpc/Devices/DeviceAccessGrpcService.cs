@@ -30,6 +30,11 @@ public sealed class DeviceAccessGrpcService : DeviceAccess.DeviceAccessBase
         if (access is null)
             throw new RpcException(new Status(StatusCode.NotFound, ValidationErrorMessages.DeviceNotFound));
 
-        return new GetDeviceAccessResponse { IsOwner = access.IsOwner, Name = access.Name };
+        return new GetDeviceAccessResponse
+        {
+            IsOwner = access.IsOwner,
+            Name = access.Name,
+            IsOnline = access.IsOnline
+        };
     }
 }

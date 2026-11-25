@@ -15,5 +15,10 @@ public interface IRedisClient
     /// Прочитать следующую порцию типизированных записей журнала после указанной позиции.
     /// </summary>
     Task<IReadOnlyList<RedisStreamEntry<T>>> ReadStreamAsync<T>(string stream, string field, string position,
-        int count, CancellationToken cancellationToken);
+        int count, CancellationToken cancellationToken) where T : class;
+
+    /// <summary>
+    /// Получить последнюю позицию журнала перед началом чтения новых событий.
+    /// </summary>
+    Task<string> GetStreamPositionAsync(string stream, CancellationToken cancellationToken);
 }

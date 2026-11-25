@@ -15,11 +15,13 @@ public class DevicesDataProvider : IDeviceDataProvider
 {
     private readonly DbSet<Device> _devices;
     private readonly IMapper _mapper;
+    private readonly IDeviceAvailabilityProvider _availability;
 
-    public DevicesDataProvider(AppDbContext dbContext, IMapper mapper)
+    public DevicesDataProvider(AppDbContext dbContext, IMapper mapper, IDeviceAvailabilityProvider availability)
     {
         _devices = dbContext.Set<Device>();
         _mapper = mapper;
+        _availability = availability;
     }
 
     public async Task<List<DeviceModel>> GetDevicesByOwnerId(Guid ownerId, CancellationToken cancellationToken)
@@ -31,7 +33,7 @@ public class DevicesDataProvider : IDeviceDataProvider
             .OrderBy(device => device.CreatedAt)
             .ToListAsync(cancellationToken);
 
-        return _mapper.Map<List<DeviceModel>>(devices);
+        return await AddAvailability(_mapper.Map<List<DeviceModel>>(devices), cancellationToken);
     }
 
     public async Task<List<DeviceModel>> SearchDevices(string search, CancellationToken cancellationToken)
@@ -45,13 +47,30 @@ public class DevicesDataProvider : IDeviceDataProvider
             .OrderBy(device => device.CreatedAt)
             .ToListAsync(cancellationToken);
 
-        return _mapper.Map<List<DeviceModel>>(devices);
+        return await AddAvailability(_mapper.Map<List<DeviceModel>>(devices), cancellationToken);
     }
 
     public async Task<DeviceAccessModel?> GetDeviceAccess(Guid deviceId, Guid userId, CancellationToken cancellationToken)
     {
         var id = new DeviceId(deviceId);
         var device = await _devices.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
-        return device is null ? null : new DeviceAccessModel(device.OwnerId.Value == userId, device.Name);
+        return device is null ? null : new DeviceAccessModel(device.OwnerId.Value == userId, device.Name,
+            device.Status == DeviceStatus.Online);
+    }
+
+    private async Task<List<DeviceModel>> AddAvailability(List<DeviceModel> devices, CancellationToken cancellationToken)
+    {
+        if (devices.Count == 0) return devices;
+        var availability = await _availability.GetAvailability(devices.Select(device => device.Id).ToArray(), cancellationToken);
+        foreach (var device in devices)
+        {
+            device.Status = (device.Status, availability[device.Id]) switch
+            {
+                (_, DeviceStatus.Busy) => DeviceStatus.Busy,
+                (DeviceStatus.Online, DeviceStatus.Online) => DeviceStatus.Online,
+                _ => DeviceStatus.Offline
+            };
+        }
+        return devices;
     }
 }

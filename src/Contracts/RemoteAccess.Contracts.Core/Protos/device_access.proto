@@ -15,4 +15,6 @@ message GetDeviceAccessRequest {
 message GetDeviceAccessResponse {
   bool is_owner = 1;
   string name = 2;
+  bool is_online = 3;
+  reserved 4;
 }

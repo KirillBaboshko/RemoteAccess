@@ -9,5 +9,5 @@ public sealed class SessionOptions
     public TimeSpan ConnectionLease { get; set; } = TimeSpan.FromSeconds(30);
     public TimeSpan SessionLease { get; set; } = TimeSpan.FromMinutes(2);
     public TimeSpan CleanupGrace { get; set; } = TimeSpan.FromMinutes(1);
-    public TimeSpan MaintenanceInterval { get; set; } = TimeSpan.FromSeconds(5);
+    public TimeSpan CleanupInterval { get; set; } = TimeSpan.FromSeconds(5);
 }

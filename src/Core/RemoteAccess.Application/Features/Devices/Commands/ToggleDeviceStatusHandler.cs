@@ -3,6 +3,7 @@ using RemoteAccess.Common.Data;
 using RemoteAccess.Domain.Models.Devices;
 using RemoteAccess.Domain.Models.Ecxeptions;
 using RemoteAccess.Domain.Repositories;
+using RemoteAccess.Data.DataProviders.Devices;
 
 namespace RemoteAccess.Application.Features.Devices.Commands;
 
@@ -10,11 +11,14 @@ public sealed class ToggleDeviceStatusHandler : IRequestHandler<ToggleDeviceStat
 {
     private readonly IDevicesRepository _devicesRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IDeviceAvailabilityProvider _availability;
 
-    public ToggleDeviceStatusHandler(IDevicesRepository devicesRepository, IUnitOfWork unitOfWork)
+    public ToggleDeviceStatusHandler(IDevicesRepository devicesRepository, IUnitOfWork unitOfWork,
+        IDeviceAvailabilityProvider availability)
     {
         _devicesRepository = devicesRepository;
         _unitOfWork = unitOfWork;
+        _availability = availability;
     }
 
     public async Task<DeviceStatus> Handle(ToggleDeviceStatusCommand request, CancellationToken cancellationToken)
@@ -23,6 +27,7 @@ public sealed class ToggleDeviceStatusHandler : IRequestHandler<ToggleDeviceStat
             ?? throw new InvalidOperationException(ValidationErrorMessages.DeviceRemovedDuringStatusUpdate);
         device.ToggleStatus();
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await _availability.NotifyStatusChanged(device.Id.Value, CancellationToken.None);
         return device.Status;
     }
 }

@@ -21,6 +21,8 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         public const string DeviceOwnerMismatch = "Владелец устройства не совпадает с авторизованным пользователем";
         public const string DeviceNotOwnedByUser = "Устройство не принадлежит пользователю";
         public const string DeviceRemovedDuringStatusUpdate = "Устройство удалено во время обновления статуса";
+        public const string DeviceAvailabilityUnavailable = "Не удалось получить актуальную доступность устройств, попробуйте позже";
+        public const string SignalingSettingsInvalid = "Некорректно настроены адрес или таймаут сервиса Signaling";
         public const string UserIdRequired = "Требуется идентификатор пользователя";
         public const string UserIdMissingFromToken = "В токене отсутствует корректный идентификатор пользователя";
         public const string UserIdNotNull = "Идентификатор пользователя не может быть пустым";

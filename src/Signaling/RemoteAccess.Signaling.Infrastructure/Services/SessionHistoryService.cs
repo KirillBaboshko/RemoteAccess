@@ -1,9 +1,11 @@
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RemoteAccess.Common.Data;
 using RemoteAccess.Common.Redis.Abstractions;
 using RemoteAccess.Signaling.Domain.Repositories;
+using RemoteAccess.Signaling.Domain.Models.Sessions;
 using RemoteAccess.Signaling.Infrastructure.Redis;
 using RemoteAccess.Signaling.Infrastructure.Redis.Models;
 
@@ -36,10 +38,26 @@ public sealed class SessionHistoryService : BackgroundService
                         SignalingRedisKeys.SessionEvents, "session", position, 100, stoppingToken);
                     foreach (var entry in entries)
                     {
-                        using var scope = _scopes.CreateScope();
+                        if (entry.Value is null)
+                        {
+                            position = entry.Id;
+                            continue;
+                        }
                         var record = entry.Value;
+                        RemoteSession session;
+                        try
+                        {
+                            session = record.ToDomain();
+                        }
+                        catch (ValidationException error)
+                        {
+                            _logger.LogError(error, "Пропущена некорректная запись сессии {EntryId}", entry.Id);
+                            position = entry.Id;
+                            continue;
+                        }
+                        using var scope = _scopes.CreateScope();
                         await scope.ServiceProvider.GetRequiredService<ISessionHistoryRepository>()
-                            .SaveAsync(record.ToDomain(), stoppingToken);
+                            .SaveAsync(session, stoppingToken);
                         await scope.ServiceProvider.GetRequiredService<IUnitOfWork>().SaveChangesAsync(stoppingToken);
                         position = entry.Id;
                         _logger.LogDebug("Сохранена история сессии {SessionId}: {State}, версия {Version}",

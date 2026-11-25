@@ -9,4 +9,5 @@ public interface ISignalingClient
     Task OfferReceived(SessionDescriptionMessage offer);
     Task AnswerReceived(SessionDescriptionMessage answer);
     Task IceCandidateReceived(IceCandidateMessage candidate);
+    Task DeviceAvailabilityChanged(DeviceAvailabilityChangedMessage change);
 }

@@ -50,6 +50,12 @@
     <Compile Update="Features\Sessions\Commands\ExpireSessionsCommand.cs">
       <DependentUpon>ExpireSessionsHandler.cs</DependentUpon>
     </Compile>
+    <Compile Update="Features\Sessions\Queries\GetSessionQuery.cs">
+      <DependentUpon>GetSessionHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Queries\GetSessionQueryValidator.cs">
+      <DependentUpon>GetSessionQuery.cs</DependentUpon>
+    </Compile>
     <Compile Update="Features\Sessions\Models\ConnectionRequestValidator.cs">
       <DependentUpon>ConnectionRequest.cs</DependentUpon>
     </Compile>
@@ -87,6 +93,15 @@
     </Compile>
     <Compile Update="Features\WebRtc\Models\ConnectionStateMessageValidator.cs">
       <DependentUpon>ConnectionStateMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Devices\Queries\DeviceAvailabilityQuery.cs">
+      <DependentUpon>GetDeviceAvailabilityHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Devices\Commands\NotifyDeviceStatusChangedCommand.cs">
+      <DependentUpon>NotifyDeviceStatusChangedHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Devices\Commands\NotifyDeviceStatusChangedCommandValidator.cs">
+      <DependentUpon>NotifyDeviceStatusChangedCommand.cs</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

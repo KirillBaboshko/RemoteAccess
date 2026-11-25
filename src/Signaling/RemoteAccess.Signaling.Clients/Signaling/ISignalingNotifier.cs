@@ -10,4 +10,5 @@ public interface ISignalingNotifier
     Task OfferReceived(string connectionId, SessionDescriptionMessage offer);
     Task AnswerReceived(string connectionId, SessionDescriptionMessage answer);
     Task IceCandidateReceived(string connectionId, IceCandidateMessage candidate);
+    Task DeviceAvailabilityChanged(DeviceAvailabilityChangedMessage change);
 }

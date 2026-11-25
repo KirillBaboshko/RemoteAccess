@@ -17,6 +17,9 @@
     <EmbeddedResource Include="Redis\Scripts\*.lua" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Redis\Models\RedisSessionRecordValidator.cs">
+      <DependentUpon>RedisSessionRecord.cs</DependentUpon>
+    </Compile>
     <Compile Update="Settings\InfrastructureSettingsValidator.cs">
       <DependentUpon>InfrastructureSettings.cs</DependentUpon>
     </Compile>

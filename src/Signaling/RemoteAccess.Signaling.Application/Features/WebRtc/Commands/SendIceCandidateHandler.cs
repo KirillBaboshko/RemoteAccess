@@ -19,7 +19,7 @@ public sealed class SendIceCandidateHandler : IRequestHandler<SendIceCandidateCo
     public async Task<Unit> Handle(SendIceCandidateCommand request, CancellationToken cancellationToken)
     {
         var session = await _state.PrepareWebRtcMessageAsync(request.Candidate.SessionId,
-            request.Caller.UserId, request.Caller.ConnectionId, WebRtcMessageType.IceCandidate, cancellationToken);
+            request.Caller.UserId, request.Caller.ConnectionId, WebRtcMessageType.IceCandidate, null, cancellationToken);
         var recipient = session.Source.ConnectionId == request.Caller.ConnectionId
             ? session.Target.ConnectionId : session.Source.ConnectionId;
         await _notifier.IceCandidateReceived(recipient, request.Candidate);

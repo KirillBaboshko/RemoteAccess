@@ -27,7 +27,7 @@ public sealed class SessionExpiryService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using var timer = new PeriodicTimer(_options.MaintenanceInterval);
+        using var timer = new PeriodicTimer(_options.CleanupInterval);
         try
         {
             while (await timer.WaitForNextTickAsync(stoppingToken))

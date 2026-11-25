@@ -13,6 +13,7 @@ public static class ValidationErrorMessages
     public const string OwnerRequired = "Устройство не принадлежит пользователю";
     public const string DeviceOffline = "Устройство не в сети";
     public const string DeviceBusy = "Устройство уже участвует в запросе или сессии";
+    public const string AvailabilityBatchTooLarge = "За один запрос можно проверить не более 256 устройств";
     public const string HostAlreadyRegistered = "Устройство уже зарегистрировано другим соединением";
     public const string ConnectionAlreadyRegistered = "Соединение уже зарегистрировано для другого устройства";
     public const string SelfConnection = "Нельзя подключиться к тому же устройству";
@@ -30,6 +31,7 @@ public static class ValidationErrorMessages
     public const string CoreTimeoutInvalid = "Таймаут обращения к Core должен быть больше нуля";
     public const string RedisScriptMissing = "Не найден скрипт Redis: {0}";
     public const string RedisUnavailable = "Хранилище сессий временно недоступно";
+    public const string RedisSessionInvalid = "Некорректная запись состояния сессии в Redis";
     public const string NegotiationTimeoutInvalid = "Время ожидания обмена SDP должно быть больше нуля";
     public const string SessionDescriptionRequired = "Отсутствуют данные SDP";
     public const string SdpRequired = "Требуется непустое описание SDP";

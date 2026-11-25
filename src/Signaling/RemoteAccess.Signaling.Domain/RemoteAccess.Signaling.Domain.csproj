@@ -8,6 +8,9 @@
     <ProjectReference Include="..\..\Common\RemoteAccess.Common\RemoteAccess.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Models\Devices\DeviceConnectionStatus.cs">
+      <DependentUpon>DeviceAvailability.cs</DependentUpon>
+    </Compile>
     <Compile Update="Models\Sessions\SessionParticipant.cs">
       <DependentUpon>RemoteSession.cs</DependentUpon>
     </Compile>

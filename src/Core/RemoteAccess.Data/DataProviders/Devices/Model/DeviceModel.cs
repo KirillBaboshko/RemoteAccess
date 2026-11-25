@@ -25,7 +25,7 @@ public class DeviceModel
     /// <summary>
     /// Статус устройства
     /// </summary>
-    public DeviceStatus Status { get; init; }
+    public DeviceStatus Status { get; set; }
 
     /// <summary>
     /// Можно ли подключиться к устройству

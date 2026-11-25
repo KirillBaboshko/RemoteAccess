@@ -12,8 +12,14 @@ public static class SignalingRedisKeys
     public const string ConnectionSessions = "connection-sessions:";
     public const string Deadlines = "deadlines";
     public const string SessionEvents = "session-events";
+    public const string AvailabilityEvents = "availability-events";
+    public const string HostDeadlines = "host-deadlines";
+    public const string ClosedConnections = "closed-connection:";
+    public const string SessionEventPositions = "session-event-positions";
+    public const string OfflineDevices = "offline-device:";
     public const string Backplane = "backplane";
 
     public static IReadOnlyList<string> StateKeys { get; } =
-        [Connections, Hosts, Sessions, BusyDevices, ConnectionSessions, Deadlines, SessionEvents];
+        [Connections, Hosts, Sessions, BusyDevices, ConnectionSessions, Deadlines, SessionEvents,
+            AvailabilityEvents, HostDeadlines, ClosedConnections, SessionEventPositions, OfflineDevices];
 }

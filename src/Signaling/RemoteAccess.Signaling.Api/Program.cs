@@ -11,8 +11,15 @@ using ValidationErrorMessages = RemoteAccess.Signaling.Domain.Exceptions.Validat
 using RemoteAccess.Signaling.Infrastructure;
 using RemoteAccess.Signaling.Infrastructure.Settings;
 using RemoteAccess.Signaling.Application.Features.WebRtc.Models;
+using FluentValidation;
+using RemoteAccess.Contracts.Signaling.Devices;
+using RemoteAccess.Signaling.Api.Grpc.Devices;
+using RemoteAccess.Signaling.Api.Grpc.Interceptors;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddGrpc(options => options.Interceptors.Add<GrpcExceptionInterceptor>());
+builder.Services.AddScoped<IValidator<GetDeviceAvailabilityRequest>, GetDeviceAvailabilityRequestValidator>();
+builder.Services.AddScoped<IValidator<DeviceStatusChangedRequest>, DeviceStatusChangedRequestValidator>();
 
 builder.Services.AddSignalR(options =>
     {
@@ -71,4 +78,7 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<SignalingHub>("/hubs/signaling", options => options.CloseOnAuthenticationExpiration = true);
+app.MapGrpcService<DeviceAvailabilityGrpcService>().RequireAuthorization(policy =>
+    policy.RequireAssertion(context => Guid.TryParse(context.User.FindFirst("userId")?.Value, out var userId)
+        && userId != Guid.Empty));
 app.Run();

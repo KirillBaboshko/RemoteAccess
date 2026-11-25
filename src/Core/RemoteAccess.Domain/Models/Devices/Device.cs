@@ -31,7 +31,7 @@ public class Device : Entity<DeviceId, Guid>
     /// <summary>
     /// Можно ли подключиться к устройству
     /// </summary>
-    public bool IsCanConnected => Status == DeviceStatus.Online && Status != DeviceStatus.Maintenance;
+    public bool IsCanConnected => Status == DeviceStatus.Online;
 
     /// <summary>
     /// Конструктор для EF Core

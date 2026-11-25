@@ -15,14 +15,20 @@ public sealed class RequestConnectionCommandValidator : AbstractValidator<Reques
         RuleFor(x => x.Request).NotNull().WithMessage(ValidationErrorMessages.ConnectionRequestRequired)
             .SetValidator(ConnectionRequestValidator.Default);
         RuleFor(x => x.Request.SourceDeviceId)
-            .MustAsync(async (command, id, cancellationToken) =>
-                (await devices.GetAccess(id, command.Caller.AccessToken, cancellationToken))?.IsOwner == true)
-            .When(x => x.Request is not null && x.Caller is not null && x.Request.SourceDeviceId != Guid.Empty)
-            .WithMessage(ValidationErrorMessages.OwnerRequired);
+            .CustomAsync(async (id, context, cancellationToken) =>
+            {
+                var access = await devices.GetAccess(id, context.InstanceToValidate.Caller.AccessToken, cancellationToken);
+                if (access?.IsOwner != true) context.AddFailure(ValidationErrorMessages.OwnerRequired);
+                else if (!access.IsOnline) context.AddFailure(ValidationErrorMessages.DeviceOffline);
+            })
+            .When(x => x.Request is not null && x.Caller is not null && x.Request.SourceDeviceId != Guid.Empty);
         RuleFor(x => x.Request.TargetDeviceId)
-            .MustAsync(async (command, id, cancellationToken) =>
-                await devices.GetAccess(id, command.Caller.AccessToken, cancellationToken) is not null)
-            .When(x => x.Request is not null && x.Caller is not null && x.Request.TargetDeviceId != Guid.Empty)
-            .WithMessage(ValidationErrorMessages.DeviceNotFound);
+            .CustomAsync(async (id, context, cancellationToken) =>
+            {
+                var access = await devices.GetAccess(id, context.InstanceToValidate.Caller.AccessToken, cancellationToken);
+                if (access is null) context.AddFailure(ValidationErrorMessages.DeviceNotFound);
+                else if (!access.IsOnline) context.AddFailure(ValidationErrorMessages.DeviceOffline);
+            })
+            .When(x => x.Request is not null && x.Caller is not null && x.Request.TargetDeviceId != Guid.Empty);
     }
 }

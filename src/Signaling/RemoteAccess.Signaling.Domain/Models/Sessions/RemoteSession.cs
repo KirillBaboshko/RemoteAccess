@@ -1,4 +1,3 @@
-using RemoteAccess.Signaling.Domain.Exceptions;
 using RemoteAccess.Signaling.Domain.Models.WebRtc;
 
 namespace RemoteAccess.Signaling.Domain.Models.Sessions;
@@ -29,41 +28,6 @@ public sealed record RemoteSession
         Source = source;
         Target = target;
         ExpiresAt = expiresAt;
-    }
-
-    public RemoteSession Respond(string connectionId, bool accepted, DateTime now, TimeSpan negotiationTimeout)
-    {
-        if (Target.ConnectionId != connectionId || State != SessionState.Pending || ExpiresAt <= now)
-            throw new SignalingException(ValidationErrorMessages.RequestUnavailable);
-
-        return this with
-        {
-            State = accepted ? SessionState.Accepted : SessionState.Rejected,
-            AcceptedAt = accepted ? now : null,
-            EndedAt = accepted ? null : now,
-            EndReason = accepted ? null : SessionEndReason.Rejected,
-            NegotiationState = accepted ? NegotiationState.AwaitingOffer : NegotiationState.None,
-            NegotiationExpiresAt = accepted ? now.Add(negotiationTimeout) : null,
-            UpdatedAt = now,
-            Version = Version + 1
-        };
-    }
-
-    public RemoteSession End(string connectionId)
-    {
-        if (Source.ConnectionId != connectionId && Target.ConnectionId != connectionId)
-            throw new SignalingException(ValidationErrorMessages.SessionUnavailable);
-
-        var now = DateTime.UtcNow;
-        return this with { State = SessionState.Ended, EndedAt = now, UpdatedAt = now,
-            EndReason = SessionEndReason.ParticipantEnded, Version = Version + 1 };
-    }
-
-    public RemoteSession Expire()
-    {
-        var now = DateTime.UtcNow;
-        return this with { State = SessionState.Expired, EndedAt = now, UpdatedAt = now,
-            EndReason = SessionEndReason.Timeout, Version = Version + 1 };
     }
 
     public static RemoteSession Restore(Guid id, SessionParticipant source, SessionParticipant target,

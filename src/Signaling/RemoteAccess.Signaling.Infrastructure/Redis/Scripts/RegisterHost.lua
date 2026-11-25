@@ -10,4 +10,6 @@ end
 connection.hostDeviceId = input.deviceId
 redis.call('SET', key('connection', input.connectionId), cjson.encode(connection), 'PX', connectionLease)
 redis.call('SET', key('host', input.deviceId), cjson.encode(input), 'PX', connectionLease)
+redis.call('ZADD', hostDeadlines, now + connectionLease, input.deviceId)
+recordAvailability({input.deviceId})
 return '{}'

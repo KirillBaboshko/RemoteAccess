@@ -1,5 +1,4 @@
 using MediatR;
-using RemoteAccess.Signaling.Clients.Signaling;
 using RemoteAccess.Signaling.Domain.Repositories;
 
 namespace RemoteAccess.Signaling.Application.Features.Sessions.Commands;
@@ -7,18 +6,12 @@ namespace RemoteAccess.Signaling.Application.Features.Sessions.Commands;
 public sealed class ExpireSessionsHandler : IRequestHandler<ExpireSessionsCommand, Unit>
 {
     private readonly ISignalingState _state;
-    private readonly ISignalingNotifier _notifier;
 
-    public ExpireSessionsHandler(ISignalingState state, ISignalingNotifier notifier)
-    {
-        _state = state;
-        _notifier = notifier;
-    }
+    public ExpireSessionsHandler(ISignalingState state) => _state = state;
 
     public async Task<Unit> Handle(ExpireSessionsCommand request, CancellationToken cancellationToken)
     {
-        var sessions = await _state.ExpireSessionsAsync(cancellationToken);
-        await Task.WhenAll(sessions.Select(session => _notifier.SessionUpdated(session)));
+        await _state.ExpireSessionsAsync(cancellationToken);
         return Unit.Value;
     }
 }

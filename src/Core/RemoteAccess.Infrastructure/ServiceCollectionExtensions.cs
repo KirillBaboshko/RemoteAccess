@@ -9,6 +9,11 @@ using RemoteAccess.Infrastructure.Database;
 using RemoteAccess.Infrastructure.DataProviders;
 using RemoteAccess.Infrastructure.Repositories;
 using RemoteAccess.Infrastructure.Services;
+using RemoteAccess.Infrastructure.Clients;
+using RemoteAccess.Infrastructure.Settings;
+using RemoteAccess.Contracts.Signaling.Devices;
+using RemoteAccess.Domain.Models.Ecxeptions;
+using Microsoft.Extensions.Options;
 
 namespace RemoteAccess.Infrastructure;
 
@@ -19,6 +24,15 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddHttpContextAccessor();
+        services.AddOptions<SignalingApiSettings>().BindConfiguration("Signaling")
+            .Validate(settings => settings.BaseUrl is { IsAbsoluteUri: true, Scheme: "http" or "https" }
+                && settings.Timeout > TimeSpan.Zero,
+                ValidationErrorMessages.SignalingSettingsInvalid).ValidateOnStart();
+        services.AddGrpcClient<DeviceAvailability.DeviceAvailabilityClient>((provider, options) =>
+            options.Address = provider.GetRequiredService<IOptions<SignalingApiSettings>>().Value.BaseUrl);
+        services.AddScoped<IDeviceAvailabilityProvider, SignalingDeviceAvailabilityProvider>();
+
         // Регистрация DbContext (InMemory для упрощения)
         services.AddDbContext<AppDbContext>(options =>
         {

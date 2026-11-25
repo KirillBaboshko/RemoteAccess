@@ -26,5 +26,6 @@
   </Folder>
   <Folder Name="/Contracts/">
     <Project Path="src\Contracts\RemoteAccess.Contracts.Core\RemoteAccess.Contracts.Core.csproj" />
+    <Project Path="src\Contracts\RemoteAccess.Contracts.Signaling\RemoteAccess.Contracts.Signaling.csproj" />
   </Folder>
 </Solution>

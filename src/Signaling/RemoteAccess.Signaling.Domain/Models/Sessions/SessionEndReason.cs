@@ -10,5 +10,6 @@ public enum SessionEndReason
     ConnectionTimeout,
     WebRtcFailed,
     WebRtcClosed,
-    RecoveryTimeout
+    RecoveryTimeout,
+    DeviceOffline
 }

@@ -7,12 +7,19 @@ local clock = redis.call('TIME')
 local now = tonumber(clock[1]) * 1000 + math.floor(tonumber(clock[2]) / 1000)
 local prefixes = { connection = KEYS[1], host = KEYS[2], session = KEYS[3], busy = KEYS[4], ['connection-sessions'] = KEYS[5] }
 local deadlines, events = KEYS[6], KEYS[7]
+local availabilityEvents, hostDeadlines = KEYS[8], KEYS[9]
+prefixes.closed = KEYS[10]
+local sessionEventPositions = KEYS[11]
+prefixes.offline = KEYS[12]
 local function key(kind, id) return prefixes[kind] .. id end
 local function read(kind, id)
     local value = redis.call('GET', key(kind, id))
     if value then return cjson.decode(value), value end
 end
 local function failure(code) return cjson.encode({error = code}) end
+local function recordAvailability(deviceIds)
+    redis.call('XADD', availabilityEvents, 'MAXLEN', '~', 10000, '*', 'change', cjson.encode({deviceIds = deviceIds}))
+end
 local function expireLater(k, deadline)
     if redis.call('PTTL', k) < deadline - now then redis.call('PEXPIREAT', k, deadline) end
 end
@@ -21,7 +28,17 @@ local function releaseDevice(device, sessionId)
     if redis.call('GET', k) == sessionId then redis.call('DEL', k) end
 end
 local function record(session)
-    redis.call('XADD', events, '*', 'session', cjson.encode(session))
+    if previous then redis.call('XDEL', events, previous) end
+    local position = redis.call('XADD', events, '*', 'session', cjson.encode(session))
+    redis.call('HSET', sessionEventPositions, session.id, position)
+end
+local function lastSession(id)
+    local position = redis.call('HGET', sessionEventPositions, id)
+    if not position then return nil end
+    local entries = redis.call('XRANGE', events, position, position)
+    if #entries == 0 then return nil end
+    local raw = entries[1][2][2]
+    return cjson.decode(raw), raw
 end
 local function isActive(session)
     return session.state == 1 or session.state == 5 or session.state == 6
@@ -41,11 +58,11 @@ local function negotiationDeadline(session)
     return deadline
 end
 local function activeDeadline(session)
+    if session.state == 0 then return session.expiresAt, 3 end -- Timeout
     local negotiation = negotiationDeadline(session)
     if negotiation then return negotiation, 4 end -- NegotiationTimeout
     if session.state == 1 and session.negotiationState == 3 then
         local deadline = session.connectionExpiresAt
-        -- Старые записи не содержат отдельного срока подключения.
         if not deadline or deadline == cjson.null then
             deadline = session.acceptedAt + negotiationTimeout + connectionTimeout
         end
@@ -55,6 +72,10 @@ local function activeDeadline(session)
 end
 local function leaseDeadline(session)
     local deadline = now + sessionLease
+    for _, participant in ipairs({session.source, session.target}) do
+        local ttl = redis.call('PTTL', key('connection', participant.connectionId))
+        deadline = math.min(deadline, now + math.max(0, ttl))
+    end
     local active = activeDeadline(session)
     if active then return math.min(deadline, active) end
     return deadline
@@ -72,6 +93,7 @@ local function save(session, previous, deadline)
     end
     redis.call('ZADD', deadlines, deadline, raw)
     record(session)
+    if not previous then recordAvailability({session.source.deviceId, session.target.deviceId}) end
 end
 local function finish(session, raw, state, reason)
     redis.call('DEL', key('session', session.id))
@@ -83,7 +105,19 @@ local function finish(session, raw, state, reason)
     session.state, session.endReason, session.endedAt, session.updatedAt = state, reason, now, now
     session.version = session.version + 1
     record(session)
+    recordAvailability({session.source.deviceId, session.target.deviceId})
     return session
+end
+local function finishDeviceSession(deviceId, reason)
+    local id = redis.call('GET', key('busy', deviceId))
+    local session, raw
+    if id then session, raw = read('session', id) end
+    if not session and id then
+        session, raw = lastSession(id)
+    end
+    if session and (session.state == 0 or isActive(session)) then
+        return finish(session, raw, 3, reason)
+    end
 end
 local function canRenew(session)
     return read('connection', session.source.connectionId) and read('connection', session.target.connectionId)

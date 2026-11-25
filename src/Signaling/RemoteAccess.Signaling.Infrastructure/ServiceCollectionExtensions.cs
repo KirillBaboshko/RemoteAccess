@@ -82,6 +82,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<LocalConnections>();
         services.AddHostedService<SessionExpiryService>();
         services.AddHostedService<SessionHistoryService>();
+        services.AddHostedService<SessionNotificationService>();
+        services.AddHostedService<DeviceAvailabilityService>();
         return services;
     }
 }

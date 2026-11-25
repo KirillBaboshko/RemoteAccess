@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.Extensions.Options;
 using RemoteAccess.Common.Redis.Abstractions;
 using RemoteAccess.Signaling.Domain.Exceptions;
@@ -8,6 +10,7 @@ using RemoteAccess.Signaling.Domain.Repositories;
 using RemoteAccess.Signaling.Infrastructure.Redis;
 using RemoteAccess.Signaling.Application.Features.Sessions.Models;
 using RemoteAccess.Signaling.Infrastructure.Redis.Models;
+using RemoteAccess.Signaling.Domain.Models.Devices;
 
 namespace RemoteAccess.Signaling.Infrastructure.Repositories;
 
@@ -26,7 +29,7 @@ public sealed class RedisSignalingState : ISignalingState
 
     public async Task ConnectAsync(Guid userId, string connectionId, CancellationToken cancellationToken)
     {
-        _local.Add(connectionId);
+        _local.Add(userId, connectionId);
         try
         {
             await ExecuteAsync(SignalingRedisScripts.Connect, new { userId, connectionId }, cancellationToken);
@@ -41,6 +44,7 @@ public sealed class RedisSignalingState : ISignalingState
     public async Task RegisterHostAsync(SessionParticipant participant, CancellationToken cancellationToken)
     {
         await ExecuteAsync(SignalingRedisScripts.RegisterHost, participant, cancellationToken);
+        _local.RegisterHost(participant.ConnectionId, participant.DeviceId);
     }
 
     public async Task<RemoteSession> CreateSessionAsync(SessionParticipant source, Guid targetDeviceId,
@@ -66,10 +70,17 @@ public sealed class RedisSignalingState : ISignalingState
     }
 
     public async Task<RemoteSession> PrepareWebRtcMessageAsync(Guid sessionId, Guid userId, string connectionId,
-        WebRtcMessageType messageType, CancellationToken cancellationToken)
+        WebRtcMessageType messageType, string? description, CancellationToken cancellationToken)
     {
+        var descriptionHash = description is null ? null : Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(description)));
         var result = await ExecuteAsync(SignalingRedisScripts.PrepareWebRtcMessage,
-            new { id = sessionId, userId, connectionId, messageType = (int)messageType }, cancellationToken);
+            new { id = sessionId, userId, connectionId, messageType = (int)messageType, descriptionHash }, cancellationToken);
+        return result.Session!.ToDomain();
+    }
+
+    public async Task<RemoteSession> GetSessionAsync(Guid sessionId, Guid userId, CancellationToken cancellationToken)
+    {
+        var result = await ExecuteAsync(SignalingRedisScripts.GetSession, new { id = sessionId, userId }, cancellationToken);
         return result.Session!.ToDomain();
     }
 
@@ -96,7 +107,18 @@ public sealed class RedisSignalingState : ISignalingState
 
     public async Task RenewLeasesAsync(CancellationToken cancellationToken)
     {
-        await ExecuteAsync(SignalingRedisScripts.RenewLeases, new { connections = _local.Snapshot() }, cancellationToken);
+        await ExecuteAsync(SignalingRedisScripts.RenewLeases, new { connections = _local.Registrations() }, cancellationToken);
+    }
+
+    public async Task<IReadOnlyList<DeviceAvailability>> GetDeviceAvailabilityAsync(Guid[] deviceIds, CancellationToken cancellationToken)
+    {
+        var result = await ExecuteAsync(SignalingRedisScripts.GetDeviceAvailability, new { deviceIds }, cancellationToken);
+        return result.Availability!;
+    }
+
+    public async Task UpdateDeviceStatusAsync(Guid deviceId, bool isOnline, CancellationToken cancellationToken)
+    {
+        await ExecuteAsync(SignalingRedisScripts.UpdateDeviceStatus, new { deviceId, isOnline }, cancellationToken);
     }
 
     private async Task<RedisStateResult> ExecuteAsync(string script, object input, CancellationToken cancellationToken)

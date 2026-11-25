@@ -6,8 +6,8 @@ namespace RemoteAccess.Domain.Models.Devices
 {
     public enum DeviceStatus
     {
-        Online,
-        Offline,
-        Maintenance
+        Online = 0,
+        Offline = 1,
+        Busy = 3
     }
 }

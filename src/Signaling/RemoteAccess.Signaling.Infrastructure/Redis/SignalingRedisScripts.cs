@@ -11,11 +11,14 @@ public static class SignalingRedisScripts
     public static string CreateSession { get; } = Load("CreateSession");
     public static string RespondToRequest { get; } = Load("RespondToRequest");
     public static string EndSession { get; } = Load("EndSession");
+    public static string GetSession { get; } = Load("GetSession");
     public static string Disconnect { get; } = Load("Disconnect");
     public static string RenewLeases { get; } = Load("RenewLeases");
     public static string ExpireSessions { get; } = Load("ExpireSessions");
     public static string PrepareWebRtcMessage { get; } = Load("PrepareWebRtcMessage");
     public static string ReportConnectionState { get; } = Load("ReportConnectionState");
+    public static string GetDeviceAvailability { get; } = Load("GetDeviceAvailability");
+    public static string UpdateDeviceStatus { get; } = Load("UpdateDeviceStatus");
 
     private static string Load(string name) => Shared + "\n" + ReadResource(name);
 

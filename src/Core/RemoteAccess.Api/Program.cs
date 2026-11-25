@@ -9,6 +9,7 @@ using FluentValidation;
 using RemoteAccess.Api.Grpc.Devices;
 using RemoteAccess.Api.Grpc.Interceptors;
 using RemoteAccess.Contracts.Core.Devices;
+using RemoteAccess.Data.DataProviders.Devices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -93,7 +94,9 @@ app.UseExceptionHandler(errorApp =>
     {
         var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = error is InvalidOperationException or ValidationException
+        context.Response.StatusCode = error is DeviceAvailabilityUnavailableException
+            ? StatusCodes.Status503ServiceUnavailable
+            : error is InvalidOperationException or ValidationException
             ? StatusCodes.Status400BadRequest
             : StatusCodes.Status500InternalServerError;
 

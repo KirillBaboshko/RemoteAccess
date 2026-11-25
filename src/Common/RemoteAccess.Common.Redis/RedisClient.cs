@@ -31,11 +31,29 @@ public sealed class RedisClient : IRedisClient
     }
 
     public async Task<IReadOnlyList<RedisStreamEntry<T>>> ReadStreamAsync<T>(string stream, string field,
-        string position, int count, CancellationToken cancellationToken)
+        string position, int count, CancellationToken cancellationToken) where T : class
     {
         var entries = await ExecuteAsync(() => _database.StreamReadAsync(_settings.InstanceName + stream, position, count), cancellationToken);
-        return entries.Select(entry => new RedisStreamEntry<T>(entry.Id.ToString(),
-            Deserialize<T>(entry.Values.Single(value => value.Name == field).Value.ToString()))).ToArray();
+        return entries.Select(entry =>
+        {
+            try
+            {
+                return new RedisStreamEntry<T>(entry.Id.ToString(),
+                    Deserialize<T>(entry.Values.Single(value => value.Name == field).Value.ToString()));
+            }
+            catch (Exception error) when (error is RedisClientException or InvalidOperationException)
+            { 
+                _logger.LogError(error, "Пропущена некорректная запись Redis {Stream}/{EntryId}", stream, entry.Id);
+                return new RedisStreamEntry<T>(entry.Id.ToString(), null);
+            }
+        }).ToArray();
+    }
+
+    public async Task<string> GetStreamPositionAsync(string stream, CancellationToken cancellationToken)
+    {
+        var entries = await ExecuteAsync(() => _database.StreamRangeAsync(_settings.InstanceName + stream,
+            count: 1, messageOrder: Order.Descending), cancellationToken);
+        return entries.Length == 0 ? "0-0" : entries[0].Id.ToString();
     }
 
     private async Task<T> ExecuteAsync<T>(Func<Task<T>> operation, CancellationToken cancellationToken)
@@ -44,7 +62,7 @@ public sealed class RedisClient : IRedisClient
         {
             return await operation().WaitAsync(cancellationToken);
         }
-        catch (RedisException error)
+        catch (Exception error) when (error is RedisException or RedisTimeoutException)
         {
             _logger.LogError(error, "Ошибка выполнения операции Redis");
             throw new RedisClientException(ValidationErrorMessages.OperationFailed, error);

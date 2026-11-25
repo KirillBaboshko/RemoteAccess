@@ -4,11 +4,13 @@
     <ProjectReference Include="..\RemoteAccess.Domain\RemoteAccess.Domain.csproj" />
     <ProjectReference Include="..\RemoteAccess.Data\RemoteAccess.Data.csproj" />
     <ProjectReference Include="..\..\Common\RemoteAccess.Common\RemoteAccess.Common.csproj" />
+    <ProjectReference Include="..\..\Contracts\RemoteAccess.Contracts.Signaling\RemoteAccess.Contracts.Signaling.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.80.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.13" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.13" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.2" />
   </ItemGroup>
 

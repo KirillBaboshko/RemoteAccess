@@ -19,10 +19,9 @@ public sealed class SendAnswerHandler : IRequestHandler<SendAnswerCommand, Unit>
     public async Task<Unit> Handle(SendAnswerCommand request, CancellationToken cancellationToken)
     {
         var session = await _state.PrepareWebRtcMessageAsync(request.Answer.SessionId,
-            request.Caller.UserId, request.Caller.ConnectionId, WebRtcMessageType.Answer, cancellationToken);
+            request.Caller.UserId, request.Caller.ConnectionId, WebRtcMessageType.Answer, request.Answer.Sdp, cancellationToken);
         var recipient = session.Source.ConnectionId;
         await _notifier.AnswerReceived(recipient, request.Answer);
-        await _notifier.SessionUpdated(session);
         return Unit.Value;
     }
 }

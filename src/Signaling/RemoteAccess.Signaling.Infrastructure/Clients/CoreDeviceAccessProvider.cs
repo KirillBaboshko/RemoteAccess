@@ -26,7 +26,7 @@ public sealed class CoreDeviceAccessProvider : IDeviceAccessProvider
             var headers = new Metadata { { "authorization", "Bearer " + accessToken } };
             var response = await _client.GetAccessAsync(new GetDeviceAccessRequest { DeviceId = deviceId.ToString() },
                 headers, deadline: DateTime.UtcNow.Add(_settings.Timeout), cancellationToken: cancellationToken);
-            return new DeviceAccessModel(response.IsOwner, response.Name);
+            return new DeviceAccessModel(response.IsOwner, response.Name, response.IsOnline);
         }
         catch (RpcException error) when (error.StatusCode == StatusCode.NotFound)
         {

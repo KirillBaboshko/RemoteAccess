@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package remoteaccess.signaling.devices.v1;
+option csharp_namespace = "RemoteAccess.Contracts.Signaling.Devices";
+
+service DeviceAvailability {
+  rpc GetMany (GetDeviceAvailabilityRequest) returns (GetDeviceAvailabilityResponse);
+  rpc NotifyStatusChanged (DeviceStatusChangedRequest) returns (DeviceStatusChangedResponse);
+}
+
+message GetDeviceAvailabilityRequest {
+  repeated string device_ids = 1;
+}
+
+message GetDeviceAvailabilityResponse {
+  repeated DeviceAvailabilityItem devices = 1;
+}
+
+message DeviceAvailabilityItem {
+  string device_id = 1;
+  reserved 2, 3;
+  reserved "is_online", "is_busy";
+  DeviceConnectionStatus status = 4;
+}
+
+enum DeviceConnectionStatus {
+  DEVICE_CONNECTION_STATUS_UNSPECIFIED = 0;
+  DEVICE_CONNECTION_STATUS_OFFLINE = 1;
+  DEVICE_CONNECTION_STATUS_ONLINE = 2;
+  DEVICE_CONNECTION_STATUS_BUSY = 3;
+}
+
+message DeviceStatusChangedRequest {
+  string device_id = 1;
+}
+
+message DeviceStatusChangedResponse {}

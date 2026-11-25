@@ -9,6 +9,16 @@
     <ProjectReference Include="..\RemoteAccess.Signaling.Application\RemoteAccess.Signaling.Application.csproj" />
     <ProjectReference Include="..\RemoteAccess.Signaling.Clients\RemoteAccess.Signaling.Clients.csproj" />
     <ProjectReference Include="..\RemoteAccess.Signaling.Infrastructure\RemoteAccess.Signaling.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Contracts\RemoteAccess.Contracts.Signaling\RemoteAccess.Contracts.Signaling.csproj" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.80.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Grpc\Devices\GetDeviceAvailabilityRequestValidator.cs">
+      <DependentUpon>DeviceAvailabilityGrpcService.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Grpc\Devices\DeviceStatusChangedRequestValidator.cs">
+      <DependentUpon>DeviceAvailabilityGrpcService.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
