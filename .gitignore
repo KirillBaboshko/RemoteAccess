@@ -365,3 +365,8 @@ FodyWeavers.xsd
 /.codex
 /.skills
 *.md
+
+# Local service secrets
+.env
+.env.*
+!.env.example

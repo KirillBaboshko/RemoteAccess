@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using RemoteAccess.Signaling.Application.Features.Hosts.Commands;
+using RemoteAccess.Signaling.Application.Features.Ice.Queries;
 using RemoteAccess.Signaling.Application.Features.Sessions.Commands;
 using RemoteAccess.Signaling.Application.Features.Sessions.Queries;
 using RemoteAccess.Signaling.Application.Models;
@@ -10,6 +11,7 @@ using RemoteAccess.Signaling.Application.Features.Sessions.Models;
 using RemoteAccess.Signaling.Application.Features.WebRtc.Commands;
 using RemoteAccess.Signaling.Application.Features.WebRtc.Models;
 using RemoteAccess.Signaling.Clients.Signaling;
+using RemoteAccess.Signaling.Clients.Ice.Models;
 using RemoteAccess.Signaling.Clients.Signaling.Models;
 
 namespace RemoteAccess.Signaling.Api.Hubs;
@@ -41,6 +43,9 @@ public sealed class SignalingHub : Hub<ISignalingClient>
 
     public async Task RegisterHost(Guid deviceId) =>
         await _sender.Send(new RegisterHostCommand(GetCaller(), deviceId), Context.ConnectionAborted);
+
+    public Task<IceConfigurationModel> GetIceConfiguration() =>
+        _sender.Send(new GetIceConfigurationQuery(GetCaller()), Context.ConnectionAborted);
 
     public Task<SessionModel> RequestConnection(ConnectionRequest request) =>
         _sender.Send(new RequestConnectionCommand(GetCaller(), request), Context.ConnectionAborted);

@@ -70,7 +70,8 @@ builder.Services.AddAndConfigureInfrastructure(new InfrastructureSettings
 {
     RedisSettings = builder.Configuration.GetSection("Redis").Get<RedisClientSettings>() ?? new(),
     SessionSettings = builder.Configuration.GetSection("Sessions").Get<SessionOptions>() ?? new(),
-    CoreSettings = builder.Configuration.GetSection("Core").Get<CoreApiSettings>() ?? new()
+    CoreSettings = builder.Configuration.GetSection("Core").Get<CoreApiSettings>() ?? new(),
+    IceSettings = builder.Configuration.GetSection("Ice").Get<IceSettings>() ?? new()
 });
 
 var app = builder.Build();

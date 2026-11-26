@@ -16,5 +16,7 @@ public sealed class InfrastructureSettingsValidator : AbstractValidator<Infrastr
         RuleFor(x => x.CoreSettings).NotNull().WithMessage(ValidationErrorMessages.InfrastructureSettingsRequired)
             .SetValidator(new CoreApiSettingsValidator());
         RuleFor(x => x.DatabaseName).NotEmpty().WithMessage(ValidationErrorMessages.DatabaseNameRequired);
+        RuleFor(x => x.IceSettings).NotNull().WithMessage(ValidationErrorMessages.InfrastructureSettingsRequired)
+            .SetValidator(new IceSettingsValidator());
     }
 }

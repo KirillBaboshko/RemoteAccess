@@ -7,4 +7,9 @@
   <ItemGroup>
     <ProjectReference Include="..\RemoteAccess.Signaling.Domain\RemoteAccess.Signaling.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Ice\Models\IceServerModel.cs">
+      <DependentUpon>IceConfigurationModel.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

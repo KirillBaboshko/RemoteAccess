@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using RemoteAccess.Common.Data;
 using RemoteAccess.Common.Redis;
 using RemoteAccess.Contracts.Core.Devices;
 using RemoteAccess.Signaling.Application.Features.Sessions.Models;
 using RemoteAccess.Signaling.Clients.Devices;
+using RemoteAccess.Signaling.Clients.Ice;
 using RemoteAccess.Signaling.Clients.Signaling;
 using RemoteAccess.Signaling.Domain.Repositories;
 using RemoteAccess.Signaling.Infrastructure.Clients;
@@ -33,6 +35,7 @@ public static class ServiceCollectionExtensions
         return services.AddAndConfigureRedis(settings.RedisSettings)
             .AddAndConfigureDatabase(settings.DatabaseName)
             .AddAndConfigureGrpcClients(settings.CoreSettings)
+            .AddAndConfigureIce(settings.IceSettings)
             .AddRepositories()
             .AddServices(settings.SessionSettings);
     }
@@ -84,6 +87,14 @@ public static class ServiceCollectionExtensions
         services.AddHostedService<SessionHistoryService>();
         services.AddHostedService<SessionNotificationService>();
         services.AddHostedService<DeviceAvailabilityService>();
+        return services;
+    }
+
+    private static IServiceCollection AddAndConfigureIce(this IServiceCollection services, IceSettings settings)
+    {
+        services.TryAddSingleton(TimeProvider.System);
+        services.AddSingleton<IOptions<IceSettings>>(Options.Create(settings));
+        services.AddSingleton<IIceConfigurationProvider, CoturnIceConfigurationProvider>();
         return services;
     }
 }

@@ -14,6 +14,12 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.15" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Features\Ice\Queries\GetIceConfigurationQuery.cs">
+      <DependentUpon>GetIceConfigurationHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Ice\Queries\GetIceConfigurationQueryValidator.cs">
+      <DependentUpon>GetIceConfigurationQuery.cs</DependentUpon>
+    </Compile>
     <Compile Update="Features\Hosts\Commands\ConnectClientCommand.cs">
       <DependentUpon>ConnectClientHandler.cs</DependentUpon>
     </Compile>

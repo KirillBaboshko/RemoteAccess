@@ -8,3 +8,5 @@
 **/*.suo
 Dockerfile*
 docker-compose*
+.env
+.env.*

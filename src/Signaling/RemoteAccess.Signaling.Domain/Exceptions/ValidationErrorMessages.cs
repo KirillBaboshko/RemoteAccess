@@ -29,6 +29,11 @@ public static class ValidationErrorMessages
     public const string InfrastructureSettingsRequired = "Отсутствуют настройки инфраструктуры";
     public const string DatabaseNameRequired = "Не задано имя базы данных истории сессий";
     public const string CoreTimeoutInvalid = "Таймаут обращения к Core должен быть больше нуля";
+    public const string IceUrlsRequired = "Список адресов ICE-серверов не должен быть null";
+    public const string StunUrlInvalid = "Некорректный адрес STUN-сервера: ожидается stun:host[:port] или stuns:host[:port]";
+    public const string TurnUrlInvalid = "Некорректный адрес TURN-сервера: ожидается turn:host[:port] или turns:host[:port] с необязательным transport=udp/tcp";
+    public const string TurnSecretRequired = "Для выдачи TURN-кредов требуется общий секрет Ice:SharedSecret, совпадающий с static-auth-secret coturn";
+    public const string TurnLifetimeInvalid = "Срок действия TURN-кредов должен быть от одной секунды до суток";
     public const string RedisScriptMissing = "Не найден скрипт Redis: {0}";
     public const string RedisUnavailable = "Хранилище сессий временно недоступно";
     public const string RedisSessionInvalid = "Некорректная запись состояния сессии в Redis";

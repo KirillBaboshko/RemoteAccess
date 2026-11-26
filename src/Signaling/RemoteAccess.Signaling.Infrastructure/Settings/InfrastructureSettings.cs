@@ -9,6 +9,7 @@ public sealed class InfrastructureSettings
     public RedisClientSettings RedisSettings { get; init; } = new();
     public SessionOptions SessionSettings { get; init; } = new();
     public CoreApiSettings CoreSettings { get; init; } = new();
+    public IceSettings IceSettings { get; init; } = new();
     public string DatabaseName { get; init; } = "RemoteAccessSignalingDb";
 
     internal void Validate() => new InfrastructureSettingsValidator().ValidateAndThrow(this);

@@ -13,6 +13,29 @@ services:
       - Kestrel__Endpoints__Grpc__Url=http://+:5080
     restart: unless-stopped
 
+  coturn:
+    image: coturn/coturn:4.19.2-r0-alpine
+    entrypoint: ["turnserver"]
+    command:
+      - -c
+      - /etc/coturn/turnserver.conf
+      - --static-auth-secret=${TURN_SHARED_SECRET:?Set TURN_SHARED_SECRET in .env}
+      - --realm=${TURN_REALM:-remoteaccess.local}
+      - --external-ip=${TURN_EXTERNAL_IP:?Set a reachable relay IPv4 in .env}
+    ports:
+      - "3478:3478/udp"
+      - "3478:3478/tcp"
+      - "49160-49200:49160-49200/udp"
+    volumes:
+      - ./docker/coturn/turnserver.conf:/etc/coturn/turnserver.conf:ro
+    healthcheck:
+      test: ["CMD", "turnutils_stunclient", "-p", "3478", "127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
   redis:
     image: redis:7.4-alpine
     ports:
