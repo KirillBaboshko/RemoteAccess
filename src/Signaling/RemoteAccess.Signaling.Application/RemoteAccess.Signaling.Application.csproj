@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RemoteAccess.Signaling.Domain\RemoteAccess.Signaling.Domain.csproj" />
     <ProjectReference Include="..\RemoteAccess.Signaling.Clients\RemoteAccess.Signaling.Clients.csproj" />
+    <ProjectReference Include="..\RemoteAccess.Signaling.Data\RemoteAccess.Signaling.Data.csproj" />
     <ProjectReference Include="..\..\Common\RemoteAccess.Common.Application\RemoteAccess.Common.Application.csproj" />
     <PackageReference Include="MediatR" Version="14.2.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
@@ -14,6 +15,21 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.15" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Features\Sessions\Queries\SessionHistoryQuery.cs">
+      <DependentUpon>GetSessionHistoryHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Queries\SessionHistoryQueryValidator.cs">
+      <DependentUpon>SessionHistoryQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Queries\SessionHistoryFilterValidator.cs">
+      <DependentUpon>SessionHistoryQueryValidator.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Queries\SessionHistoryByIdQuery.cs">
+      <DependentUpon>GetSessionHistoryByIdHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Features\Sessions\Queries\SessionHistoryByIdQueryValidator.cs">
+      <DependentUpon>SessionHistoryByIdQuery.cs</DependentUpon>
+    </Compile>
     <Compile Update="Features\Ice\Queries\GetIceConfigurationQuery.cs">
       <DependentUpon>GetIceConfigurationHandler.cs</DependentUpon>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
 		<ProjectReference Include="..\RemoteAccess.Domain\RemoteAccess.Domain.csproj" />
+		<ProjectReference Include="..\..\Contracts\RemoteAccess.Contracts.Signaling\RemoteAccess.Contracts.Signaling.csproj" />
 		<ProjectReference Include="..\..\Common\RemoteAccess.Common\RemoteAccess.Common.csproj" />
 	</ItemGroup>
   <PropertyGroup>

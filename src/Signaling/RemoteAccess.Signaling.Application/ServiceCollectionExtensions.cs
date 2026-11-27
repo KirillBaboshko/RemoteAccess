@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using RemoteAccess.Common.Application.Behaviors;
+using RemoteAccess.Signaling.Data.DataProviders.Sessions.Model;
 
 namespace RemoteAccess.Signaling.Application;
 
@@ -14,7 +15,7 @@ public static class ServiceCollectionExtensions
             options.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
         services.AddValidatorsFromAssembly(typeof(ServiceCollectionExtensions).Assembly);
-        services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
+        services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly, typeof(SessionHistoryMappingProfile).Assembly);
         ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
         return services;
     }

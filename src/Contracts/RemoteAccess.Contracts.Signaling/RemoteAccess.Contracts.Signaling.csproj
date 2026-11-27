@@ -10,5 +10,6 @@
     <PackageReference Include="Grpc.Core.Api" Version="2.80.0" />
     <PackageReference Include="Grpc.Tools" Version="2.80.0" PrivateAssets="all" />
     <Protobuf Include="Protos\device_availability.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\session_history.proto" GrpcServices="Both" />
   </ItemGroup>
 </Project>

@@ -23,8 +23,11 @@ namespace RemoteAccess.Domain.Models.Ecxeptions
         public const string DeviceRemovedDuringStatusUpdate = "Устройство удалено во время обновления статуса";
         public const string DeviceAvailabilityUnavailable = "Не удалось получить актуальную доступность устройств, попробуйте позже";
         public const string SignalingSettingsInvalid = "Некорректно настроены адрес или таймаут сервиса Signaling";
+        public const string HistoryUnavailable = "История сеансов временно недоступна";
+        public const string HistoryNotFound = "Запись истории не найдена";
+        public const string RequestInvalid = "Некорректные параметры запроса";
         public const string UserIdRequired = "Требуется идентификатор пользователя";
-        public const string UserIdMissingFromToken = "В токене отсутствует корректный идентификатор пользователя";
+        public const string UserIdMissingFromToken = Common.Security.ValidationErrorMessages.UserIdMissingFromToken;
         public const string UserIdNotNull = "Идентификатор пользователя не может быть пустым";
         /// <summary>
         /// Превышена максимальная длина

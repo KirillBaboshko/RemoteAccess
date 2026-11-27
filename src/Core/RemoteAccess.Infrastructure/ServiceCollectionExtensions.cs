@@ -12,6 +12,8 @@ using RemoteAccess.Infrastructure.Services;
 using RemoteAccess.Infrastructure.Clients;
 using RemoteAccess.Infrastructure.Settings;
 using RemoteAccess.Contracts.Signaling.Devices;
+using RemoteAccess.Contracts.Signaling.Sessions;
+using RemoteAccess.Data.DataProviders.Sessions;
 using RemoteAccess.Domain.Models.Ecxeptions;
 using Microsoft.Extensions.Options;
 
@@ -32,6 +34,9 @@ public static class ServiceCollectionExtensions
         services.AddGrpcClient<DeviceAvailability.DeviceAvailabilityClient>((provider, options) =>
             options.Address = provider.GetRequiredService<IOptions<SignalingApiSettings>>().Value.BaseUrl);
         services.AddScoped<IDeviceAvailabilityProvider, SignalingDeviceAvailabilityProvider>();
+        services.AddGrpcClient<SessionHistory.SessionHistoryClient>((provider, options) =>
+            options.Address = provider.GetRequiredService<IOptions<SignalingApiSettings>>().Value.BaseUrl);
+        services.AddScoped<ISessionHistoryProvider, SignalingSessionHistoryProvider>();
 
         // Регистрация DbContext (InMemory для упрощения)
         services.AddDbContext<AppDbContext>(options =>

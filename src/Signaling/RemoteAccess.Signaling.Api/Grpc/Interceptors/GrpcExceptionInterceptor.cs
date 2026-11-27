@@ -23,13 +23,17 @@ public sealed class GrpcExceptionInterceptor : Interceptor
             throw new RpcException(new Status(StatusCode.InvalidArgument,
                 string.Join("; ", error.Errors.Select(failure => failure.ErrorMessage))));
         }
+        catch (UnauthorizedAccessException)
+        {
+            throw new RpcException(new Status(StatusCode.Unauthenticated, ValidationErrorMessages.UserRequired));
+        }
         catch (SignalingException error)
         {
             throw new RpcException(new Status(StatusCode.Unavailable, error.Message));
         }
         catch (Exception error) when (error is not RpcException && error is not OperationCanceledException)
         {
-            _logger.LogError(error, "Ошибка внутреннего запроса доступности устройств");
+            _logger.LogError(error, "Ошибка внутреннего запроса {Method}", context.Method);
             throw new RpcException(new Status(StatusCode.Internal, ValidationErrorMessages.UnexpectedError));
         }
     }

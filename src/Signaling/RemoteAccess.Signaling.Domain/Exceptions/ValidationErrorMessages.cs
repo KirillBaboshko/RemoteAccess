@@ -7,6 +7,13 @@ public static class ValidationErrorMessages
     public const string ConnectionRequestRequired = "Отсутствуют данные запроса подключения";
     public const string DeviceRequired = "Требуется идентификатор устройства";
     public const string SessionRequired = "Требуется идентификатор сессии";
+    public const string HistoryFilterRequired = "Отсутствуют параметры запроса истории";
+    public const string HistoryNotFound = "Запись истории не найдена";
+    public const string HistoryPageInvalid = "Укажите допустимый номер страницы, начиная с 1";
+    public const string HistoryPageSizeInvalid = "Размер страницы должен быть от 1 до 100";
+    public const string HistoryStateInvalid = "В истории доступны только состояния Ended, Rejected и Expired";
+    public const string HistoryPeriodInvalid = "Конец периода должен быть позже его начала";
+    public const string RequestInvalid = "Некорректные параметры запроса";
     public const string ConnectionRequired = "Не удалось определить соединение";
     public const string TokenRequired = "Токен доступа недоступен";
     public const string DeviceNotFound = "Устройство не найдено";

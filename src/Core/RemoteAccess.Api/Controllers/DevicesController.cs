@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RemoteAccess.Api.Extensions;
+using RemoteAccess.Common.Extensions;
 using RemoteAccess.Application.Features.Devices.Commands;
 using RemoteAccess.Application.Features.Devices.Models;
 using RemoteAccess.Application.Features.Devices.Queries;

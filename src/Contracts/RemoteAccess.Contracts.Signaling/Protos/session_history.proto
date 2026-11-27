@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package remoteaccess.signaling.sessions.v1;
+option csharp_namespace = "RemoteAccess.Contracts.Signaling.Sessions";
+
+import "google/protobuf/timestamp.proto";
+
+service SessionHistory {
+  rpc GetList (GetSessionHistoryRequest) returns (SessionHistoryPage);
+  rpc GetById (GetSessionHistoryByIdRequest) returns (SessionHistoryItem);
+}
+
+enum HistoryState {
+  HISTORY_STATE_UNSPECIFIED = 0;
+  reserved 1;
+  HISTORY_STATE_REJECTED = 2;
+  HISTORY_STATE_ENDED = 3;
+  HISTORY_STATE_EXPIRED = 4;
+}
+
+message GetSessionHistoryRequest {
+  optional string device_id = 1;
+  optional HistoryState state = 2;
+  google.protobuf.Timestamp from = 3;
+  google.protobuf.Timestamp to = 4;
+  int32 page = 5;
+  int32 page_size = 6;
+}
+
+message GetSessionHistoryByIdRequest {
+  string session_id = 1;
+}
+
+message SessionHistoryPage {
+  repeated SessionHistoryItem items = 1;
+  int32 total_count = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message SessionHistoryItem {
+  string session_id = 1;
+  string source_user_id = 2;
+  string target_user_id = 3;
+  string source_device_id = 4;
+  string target_device_id = 5;
+  HistoryState state = 6;
+  optional string end_reason = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp accepted_at = 9;
+  google.protobuf.Timestamp connected_at = 10;
+  google.protobuf.Timestamp ended_at = 11;
+  optional double duration_seconds = 12;
+}

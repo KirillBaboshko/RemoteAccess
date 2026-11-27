@@ -1,10 +1,12 @@
 using System.Text;
+using RemoteAccess.Common.Extensions;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using RemoteAccess.Common.Redis;
 using RemoteAccess.Signaling.Api.Hubs;
+using RemoteAccess.Signaling.Api.Grpc.Sessions;
 using RemoteAccess.Signaling.Application;
 using SessionOptions = RemoteAccess.Signaling.Application.Features.Sessions.Models.SessionOptions;
 using ValidationErrorMessages = RemoteAccess.Signaling.Domain.Exceptions.ValidationErrorMessages;
@@ -78,8 +80,8 @@ var app = builder.Build();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapGrpcService<SessionHistoryGrpcService>();
 app.MapHub<SignalingHub>("/hubs/signaling", options => options.CloseOnAuthenticationExpiration = true);
 app.MapGrpcService<DeviceAvailabilityGrpcService>().RequireAuthorization(policy =>
-    policy.RequireAssertion(context => Guid.TryParse(context.User.FindFirst("userId")?.Value, out var userId)
-        && userId != Guid.Empty));
+    policy.RequireAssertion(context => context.User.TryGetNonEmptyUserId(out _)));
 app.Run();

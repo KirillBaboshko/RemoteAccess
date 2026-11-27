@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using RemoteAccess.Common.Extensions;
 using RemoteAccess.Domain.Models;
 using RemoteAccess.Domain.Services.Token;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,7 +26,7 @@ public sealed class JwtTokenIssuer : ITokenIssuer
         var identity = new ClaimsIdentity(new GenericIdentity(context.Login), new[]
         {
             new Claim("sub", context.Login),
-            new Claim("userId", context.UserId.ToString())
+            new Claim(ClaimsPrincipalExtensions.UserIdClaimType, context.UserId.ToString())
         });
         var token = IssueToken(identity);
         return Task.FromResult(token);

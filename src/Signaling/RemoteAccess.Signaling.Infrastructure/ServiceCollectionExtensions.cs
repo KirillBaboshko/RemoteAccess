@@ -10,9 +10,11 @@ using RemoteAccess.Signaling.Application.Features.Sessions.Models;
 using RemoteAccess.Signaling.Clients.Devices;
 using RemoteAccess.Signaling.Clients.Ice;
 using RemoteAccess.Signaling.Clients.Signaling;
+using RemoteAccess.Signaling.Data.DataProviders.Sessions;
 using RemoteAccess.Signaling.Domain.Repositories;
 using RemoteAccess.Signaling.Infrastructure.Clients;
 using RemoteAccess.Signaling.Infrastructure.Database;
+using RemoteAccess.Signaling.Infrastructure.DataProviders;
 using RemoteAccess.Signaling.Infrastructure.Redis;
 using RemoteAccess.Signaling.Infrastructure.Repositories;
 using RemoteAccess.Signaling.Infrastructure.Services;
@@ -67,6 +69,7 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ISessionHistoryRepository, SessionHistoryRepository>();
+        services.AddScoped<ISessionHistoryDataProvider, SessionHistoryDataProvider>();
         services.AddSingleton<ISignalingState, RedisSignalingState>();
         return services;
     }

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using RemoteAccess.Common.Extensions;
 using RemoteAccess.Signaling.Application.Features.Hosts.Commands;
 using RemoteAccess.Signaling.Application.Features.Ice.Queries;
 using RemoteAccess.Signaling.Application.Features.Sessions.Commands;
@@ -73,7 +74,7 @@ public sealed class SignalingHub : Hub<ISignalingClient>
 
     private SignalingCaller GetCaller()
     {
-        if (!Guid.TryParse(Context.User?.FindFirst("userId")?.Value, out var userId) || userId == Guid.Empty)
+        if (!Context.User.TryGetNonEmptyUserId(out var userId))
             throw new HubException(ValidationErrorMessages.UserRequired);
 
         var http = Context.GetHttpContext();

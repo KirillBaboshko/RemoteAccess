@@ -46,6 +46,12 @@
 		<Compile Update="Features\Users\Queries\UserProfileQuery.cs">
 			<DependentUpon>GetUserProfileHandler.cs</DependentUpon>
 		</Compile>
+		<Compile Update="Features\Users\Queries\UserSessionsQuery.cs">
+			<DependentUpon>GetUserSessionsHandler.cs</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Users\Queries\UserSessionByIdQuery.cs">
+			<DependentUpon>GetUserSessionByIdHandler.cs</DependentUpon>
+		</Compile>
 		<Compile Update="Features\Devices\Commands\AppendDeviceCommand.cs">
 			<DependentUpon>AppendDeviceHandler.cs</DependentUpon>
 		</Compile>

@@ -1,4 +1,5 @@
 using System.Text;
+using RemoteAccess.Common.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -10,10 +11,18 @@ using RemoteAccess.Api.Grpc.Devices;
 using RemoteAccess.Api.Grpc.Interceptors;
 using RemoteAccess.Contracts.Core.Devices;
 using RemoteAccess.Data.DataProviders.Devices;
+using RemoteAccess.Data.DataProviders.Sessions;
+using RemoteAccess.Domain.Models.Ecxeptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    var messages = options.ModelBindingMessageProvider;
+    messages.SetAttemptedValueIsInvalidAccessor((_, _) => ValidationErrorMessages.RequestInvalid);
+    messages.SetValueIsInvalidAccessor(_ => ValidationErrorMessages.RequestInvalid);
+    messages.SetValueMustNotBeNullAccessor(_ => ValidationErrorMessages.RequestInvalid);
+});
 builder.Services.AddGrpc(options => options.Interceptors.Add<GrpcExceptionInterceptor>());
 builder.Services.AddScoped<IValidator<GetDeviceAccessRequest>, GetDeviceAccessRequestValidator>();
 builder.Services.AddEndpointsApiExplorer();
@@ -94,11 +103,13 @@ app.UseExceptionHandler(errorApp =>
     {
         var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = error is DeviceAvailabilityUnavailableException
-            ? StatusCodes.Status503ServiceUnavailable
-            : error is InvalidOperationException or ValidationException
-            ? StatusCodes.Status400BadRequest
-            : StatusCodes.Status500InternalServerError;
+        context.Response.StatusCode = error switch
+        {
+            DeviceAvailabilityUnavailableException or SessionHistoryUnavailableException => StatusCodes.Status503ServiceUnavailable,
+            UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
+            InvalidOperationException or ValidationException => StatusCodes.Status400BadRequest,
+            _ => StatusCodes.Status500InternalServerError
+        };
 
         await context.Response.WriteAsJsonAsync(new { error = error?.Message ?? "Неизвестная ошибка" });
     });
@@ -110,7 +121,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapGrpcService<DeviceAccessGrpcService>().RequireAuthorization(policy =>
-    policy.RequireAssertion(context => Guid.TryParse(context.User.FindFirst("userId")?.Value, out var userId)
-        && userId != Guid.Empty));
+    policy.RequireAssertion(context => context.User.TryGetNonEmptyUserId(out _)));
 
 app.Run();

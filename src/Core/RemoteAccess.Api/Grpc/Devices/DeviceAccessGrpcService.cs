@@ -2,7 +2,7 @@ using FluentValidation;
 using Grpc.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using RemoteAccess.Api.Extensions;
+using RemoteAccess.Common.Extensions;
 using RemoteAccess.Application.Features.Devices.Queries;
 using RemoteAccess.Contracts.Core.Devices;
 using RemoteAccess.Domain.Models.Ecxeptions;
